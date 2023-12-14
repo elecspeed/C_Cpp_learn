@@ -1,0 +1,35 @@
+# Project: 调试技巧
+# Makefile created by Red Panda C++ 2.25.1
+
+CPP      = g++.exe
+CC       = gcc.exe
+WINDRES  = windres.exe
+RES      = 调试技巧_private.res
+OBJ      = 调试技巧.o $(RES)
+LINKOBJ  = 调试技巧.o 调试技巧_private.res
+CLEANOBJ  =  调试技巧.o  调试技巧_private.res 调试技巧.exe
+LIBS     =  -fstack-protector-strong
+INCS     =  
+CXXINCS  =  
+BIN      = 调试技巧.exe
+CXXFLAGS = $(CXXINCS)  -pedantic -g3 -O1 -pipe -Wall -D__DEBUG__
+CFLAGS   = $(INCS)  -std=c11 -pedantic -g3 -O1 -pipe -Wall -D__DEBUG__
+RM       = del /q /f
+WINDRESFLAGS  = 
+
+.PHONY: all all-before all-after clean clean-custom
+
+all: all-before $(BIN) all-after
+
+clean: clean-custom
+	-$(RM) $(CLEANOBJ) > NUL 2>&1
+
+$(BIN): $(OBJ)
+	$(CC) $(LINKOBJ) -o $(BIN) $(LIBS)
+
+调试技巧.o: 调试技巧.c
+	$(CC) -c 调试技巧.c -o 调试技巧.o $(CFLAGS)  -finput-charset=UTF-8 -fexec-charset=gbk
+
+调试技巧_private.res: 调试技巧_private.rc 
+	$(WINDRES) -i 调试技巧_private.rc --input-format=rc -o 调试技巧_private.res -O coff $(WINDRESFLAGS) 
+
