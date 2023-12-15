@@ -1,0 +1,29 @@
+[
+    {
+        "caretX": 11,
+        "caretY": 54,
+        "filename": "F:/Dev-c++/C文件(小熊猫)/扫雷/text.c",
+        "focused": false,
+        "isOpen": false,
+        "leftChar": 1,
+        "topLine": 4
+    },
+    {
+        "caretX": 22,
+        "caretY": 6,
+        "filename": "F:/Dev-c++/C文件(小熊猫)/扫雷/game.h",
+        "focused": false,
+        "isOpen": false,
+        "leftChar": 1,
+        "topLine": 1
+    },
+    {
+        "caretX": 47,
+        "caretY": 86,
+        "filename": "F:/Dev-c++/C文件(小熊猫)/扫雷/geme.c",
+        "focused": false,
+        "isOpen": false,
+        "leftChar": 1,
+        "topLine": 1
+    }
+]

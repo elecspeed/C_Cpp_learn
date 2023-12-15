@@ -1,0 +1,35 @@
+# Project: 结构体
+# Makefile created by Red Panda C++ 2.25.1
+
+CPP      = g++.exe
+CC       = gcc.exe
+WINDRES  = windres.exe
+RES      = 结构体_private.res
+OBJ      = 结构体.o $(RES)
+LINKOBJ  = 结构体.o 结构体_private.res
+CLEANOBJ  =  结构体.o  结构体_private.res 结构体.exe
+LIBS     = 
+INCS     =  
+CXXINCS  =  
+BIN      = 结构体.exe
+CXXFLAGS = $(CXXINCS)  -g3 -pipe -Wall -D__DEBUG__
+CFLAGS   = $(INCS)  -g3 -pipe -Wall -D__DEBUG__
+RM       = del /q /f
+WINDRESFLAGS  = 
+
+.PHONY: all all-before all-after clean clean-custom
+
+all: all-before $(BIN) all-after
+
+clean: clean-custom
+	-$(RM) $(CLEANOBJ) > NUL 2>&1
+
+$(BIN): $(OBJ)
+	$(CC) $(LINKOBJ) -o $(BIN) $(LIBS)
+
+结构体.o: 结构体.c
+	$(CC) -c 结构体.c -o 结构体.o $(CFLAGS)  -finput-charset=UTF-8 -fexec-charset=gbk
+
+结构体_private.res: 结构体_private.rc 
+	$(WINDRES) -i 结构体_private.rc --input-format=rc -o 结构体_private.res -O coff $(WINDRESFLAGS) 
+

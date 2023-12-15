@@ -1,0 +1,32 @@
+[
+    {
+        "caretX": 1,
+        "caretY": 5,
+        "filename": "F:/Dev-c++/C文件(小熊猫)/三字棋/game.c",
+        "focused": false,
+        "isOpen": true,
+        "leftChar": 1,
+        "order": 0,
+        "topLine": 1
+    },
+    {
+        "caretX": 1,
+        "caretY": 1,
+        "filename": "F:/Dev-c++/C文件(小熊猫)/三字棋/game.h",
+        "focused": false,
+        "isOpen": true,
+        "leftChar": 1,
+        "order": 2,
+        "topLine": 1
+    },
+    {
+        "caretX": 1,
+        "caretY": 45,
+        "filename": "F:/Dev-c++/C文件(小熊猫)/三字棋/text.c",
+        "focused": true,
+        "isOpen": true,
+        "leftChar": 1,
+        "order": 1,
+        "topLine": 72
+    }
+]
