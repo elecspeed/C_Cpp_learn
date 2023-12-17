@@ -1,0 +1,35 @@
+# Project: 指针（高级）
+# Makefile created by Red Panda C++ 2.25.1
+
+CPP      = g++.exe
+CC       = gcc.exe
+WINDRES  = windres.exe
+RES      = 指针（高级）_private.res
+OBJ      = 指针（高级）.o $(RES)
+LINKOBJ  = 指针（高级）.o 指针（高级）_private.res
+CLEANOBJ  =  指针（高级）.o  指针（高级）_private.res 指针（高级）.exe
+LIBS     = 
+INCS     =  
+CXXINCS  =  
+BIN      = 指针（高级）.exe
+CXXFLAGS = $(CXXINCS)  -g3 -pipe -Wall -D__DEBUG__
+CFLAGS   = $(INCS)  -g3 -pipe -Wall -D__DEBUG__
+RM       = del /q /f
+WINDRESFLAGS  = 
+
+.PHONY: all all-before all-after clean clean-custom
+
+all: all-before $(BIN) all-after
+
+clean: clean-custom
+	-$(RM) $(CLEANOBJ) > NUL 2>&1
+
+$(BIN): $(OBJ)
+	$(CC) $(LINKOBJ) -o $(BIN) $(LIBS)
+
+指针（高级）.o: 指针（高级）.c
+	$(CC) -c 指针（高级）.c -o 指针（高级）.o $(CFLAGS)  -finput-charset=UTF-8 -fexec-charset=gbk
+
+指针（高级）_private.res: 指针（高级）_private.rc 
+	$(WINDRES) -i 指针（高级）_private.rc --input-format=rc -o 指针（高级）_private.res -O coff $(WINDRESFLAGS) 
+
