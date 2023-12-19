@@ -1,0 +1,35 @@
+# Project: 练习使用并手搓qsort
+# Makefile created by Red Panda C++ 2.25.1
+
+CPP      = g++.exe
+CC       = gcc.exe
+WINDRES  = windres.exe
+RES      = 练习使用并手搓qsort_private.res
+OBJ      = 练习使用并手搓qsort.o $(RES)
+LINKOBJ  = 练习使用并手搓qsort.o 练习使用并手搓qsort_private.res
+CLEANOBJ  =  练习使用并手搓qsort.o  练习使用并手搓qsort_private.res 练习使用并手搓qsort.exe
+LIBS     = 
+INCS     =  
+CXXINCS  =  
+BIN      = 练习使用并手搓qsort.exe
+CXXFLAGS = $(CXXINCS)  -g3 -pipe -Wall -D__DEBUG__
+CFLAGS   = $(INCS)  -g3 -pipe -Wall -D__DEBUG__
+RM       = del /q /f
+WINDRESFLAGS  = 
+
+.PHONY: all all-before all-after clean clean-custom
+
+all: all-before $(BIN) all-after
+
+clean: clean-custom
+	-$(RM) $(CLEANOBJ) > NUL 2>&1
+
+$(BIN): $(OBJ)
+	$(CC) $(LINKOBJ) -o $(BIN) $(LIBS)
+
+练习使用并手搓qsort.o: 练习使用并手搓qsort.c
+	$(CC) -c 练习使用并手搓qsort.c -o 练习使用并手搓qsort.o $(CFLAGS)  -finput-charset=UTF-8 -fexec-charset=gbk
+
+练习使用并手搓qsort_private.res: 练习使用并手搓qsort_private.rc 
+	$(WINDRES) -i 练习使用并手搓qsort_private.rc --input-format=rc -o 练习使用并手搓qsort_private.res -O coff $(WINDRESFLAGS) 
+

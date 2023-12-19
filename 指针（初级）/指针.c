@@ -31,10 +31,10 @@
 //	int arr[4][3] = {{1,2,3},{4,5,6},{7,8,9},{10,11,12}};
 //	
 ////	int* p1 = arr;
-////	int** pp = arr;		//不可，类型不匹配。p1是int型，pp是int*型，而arr是int[3]型
+////	int** pp = arr;		//不可，类型不匹配。p1是int*型，pp是int**型，而arr是int(*)[3]型
 //	int* p1 = arr[0];
 //	int (*p)[3] = arr;
-//	int (*pp)[4][3] = &arr;	//可，p1和arr[0]是int型，p和arr是int[3]型，pp和&arr是int[4][3]型
+//	int (*pp)[4][3] = &arr;	//可，p1和arr[0]是int*型，p和arr是int(*)[3]型，pp和&arr是int(*)[4][3]型
 //	
 //	printf("  &arr: %p\t  &arr+1: %p\n", &arr, &arr+1);
 //	printf("arr[0]: %p\tarr[0]+1: %p\n\n", arr[0], arr[0]+1);
