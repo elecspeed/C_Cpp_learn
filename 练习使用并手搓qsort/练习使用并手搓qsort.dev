@@ -1,7 +1,7 @@
 [Project]
 filename = 练习使用并手搓qsort.dev
 name = 练习使用并手搓qsort
-UnitCount = 1
+UnitCount = 5
 Type = 1
 Ver = 3
 Includes = 
@@ -64,7 +64,7 @@ SyncProduct = 1
 
 
 [Unit1]
-FileName = 练习使用并手搓qsort.c
+FileName = quicksort_int.c
 CompileCpp = 0
 Folder = 源文件
 Compile = 1
@@ -77,7 +77,33 @@ RealEncoding = UTF-8
 
 
 [Unit2]
-FileName = jj.h
+FileName = main.c
+CompileCpp = 0
+Folder = 源文件
+Compile = 1
+Link = 1
+Priority = 1000
+OverrideBuildCmd = 0
+BuildCmd = 
+FileEncoding = PROJECT
+RealEncoding = UTF-8
+
+
+[Unit3]
+FileName = my_qsort.c
+CompileCpp = 0
+Folder = 源文件
+Compile = 1
+Link = 1
+Priority = 1000
+OverrideBuildCmd = 0
+BuildCmd = 
+FileEncoding = PROJECT
+RealEncoding = UTF-8
+
+
+[Unit4]
+FileName = my_qsort.h
 CompileCpp = 0
 Folder = 头文件
 Compile = 0
@@ -89,9 +115,22 @@ FileEncoding = PROJECT
 RealEncoding = UTF-8
 
 
-[Unit3]
-FileName = jj.cpp
-CompileCpp = 1
+[Unit5]
+FileName = 库函数qsort的声明.c
+CompileCpp = 0
+Folder = 源文件
+Compile = 1
+Link = 1
+Priority = 1000
+OverrideBuildCmd = 0
+BuildCmd = 
+FileEncoding = PROJECT
+RealEncoding = UTF-8
+
+
+[Unit6]
+FileName = test4.c
+CompileCpp = 0
 Folder = 源文件
 Compile = 1
 Link = 1
@@ -100,6 +139,32 @@ OverrideBuildCmd = 0
 BuildCmd = 
 FileEncoding = PROJECT
 RealEncoding = 
+
+
+[Unit7]
+FileName = my_qsort.c
+CompileCpp = 0
+Folder = 源文件
+Compile = 1
+Link = 1
+Priority = 1000
+OverrideBuildCmd = 0
+BuildCmd = 
+FileEncoding = PROJECT
+RealEncoding = UTF-8
+
+
+[Unit8]
+FileName = my_qsort.h
+CompileCpp = 0
+Folder = 头文件
+Compile = 0
+Link = 0
+Priority = 1000
+OverrideBuildCmd = 0
+BuildCmd = 
+FileEncoding = PROJECT
+RealEncoding = UTF-8
 
 
 [CompilerSettings]
