@@ -64,7 +64,7 @@ SyncProduct = 1
 
 
 [Unit1]
-FileName = quicksort_int.c
+FileName = 库函数qsort的声明.c
 CompileCpp = 0
 Folder = 源文件
 Compile = 1
@@ -77,11 +77,11 @@ RealEncoding = UTF-8
 
 
 [Unit2]
-FileName = main.c
+FileName = my_qsort.h
 CompileCpp = 0
-Folder = 源文件
-Compile = 1
-Link = 1
+Folder = 头文件
+Compile = 0
+Link = 0
 Priority = 1000
 OverrideBuildCmd = 0
 BuildCmd = 
@@ -103,11 +103,11 @@ RealEncoding = UTF-8
 
 
 [Unit4]
-FileName = my_qsort.h
+FileName = quicksort_int.c
 CompileCpp = 0
-Folder = 头文件
-Compile = 0
-Link = 0
+Folder = 源文件
+Compile = 1
+Link = 1
 Priority = 1000
 OverrideBuildCmd = 0
 BuildCmd = 
@@ -116,7 +116,7 @@ RealEncoding = UTF-8
 
 
 [Unit5]
-FileName = 库函数qsort的声明.c
+FileName = main.c
 CompileCpp = 0
 Folder = 源文件
 Compile = 1

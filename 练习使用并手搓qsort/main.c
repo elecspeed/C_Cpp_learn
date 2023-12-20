@@ -3,10 +3,10 @@
 int main()
 {
 	test1();	//练习使用qsort（排序int数组）
-	test2();	//练习使用qsort（排序结构体数组）
-	test3();	//利用int数组初步实现快速排序算法：quicksort_int
-//				  仿造quicksort_int写my_qsort
-	test4();	//用my_qsort排序结构体数组
+//	test2();	//练习使用qsort（排序结构体数组）
+//	test3();	//利用int数组初步实现快速排序算法：quicksort_int
+//				//仿造quicksort_int写my_qsort
+//	test4();	//用my_qsort排序结构体数组
 
 	return 0;
 }

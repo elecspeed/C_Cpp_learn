@@ -1,22 +1,20 @@
 [
     {
-        "caretX": 1,
-        "caretY": 3,
-        "filename": "F:/Dev-c++/C文件(小熊猫)/C_learn/练习使用并手搓qsort/quicksort_int.c",
+        "caretX": 3,
+        "caretY": 5,
+        "filename": "F:/Dev-c++/C文件(小熊猫)/C_learn/练习使用并手搓qsort/库函数qsort的声明.c",
         "focused": false,
-        "isOpen": true,
+        "isOpen": false,
         "leftChar": 1,
-        "order": 1,
-        "topLine": 1
+        "topLine": 4
     },
     {
-        "caretX": 2,
-        "caretY": 12,
-        "filename": "F:/Dev-c++/C文件(小熊猫)/C_learn/练习使用并手搓qsort/main.c",
-        "focused": true,
-        "isOpen": true,
+        "caretX": 1,
+        "caretY": 17,
+        "filename": "F:/Dev-c++/C文件(小熊猫)/C_learn/练习使用并手搓qsort/my_qsort.h",
+        "focused": false,
+        "isOpen": false,
         "leftChar": 1,
-        "order": 4,
         "topLine": 1
     },
     {
@@ -24,29 +22,27 @@
         "caretY": 3,
         "filename": "F:/Dev-c++/C文件(小熊猫)/C_learn/练习使用并手搓qsort/my_qsort.c",
         "focused": false,
-        "isOpen": true,
+        "isOpen": false,
         "leftChar": 1,
-        "order": 0,
-        "topLine": 8
-    },
-    {
-        "caretX": 1,
-        "caretY": 17,
-        "filename": "F:/Dev-c++/C文件(小熊猫)/C_learn/练习使用并手搓qsort/my_qsort.h",
-        "focused": false,
-        "isOpen": true,
-        "leftChar": 1,
-        "order": 2,
         "topLine": 1
     },
     {
-        "caretX": 3,
-        "caretY": 5,
-        "filename": "F:/Dev-c++/C文件(小熊猫)/C_learn/练习使用并手搓qsort/库函数qsort的声明.c",
+        "caretX": 1,
+        "caretY": 3,
+        "filename": "F:/Dev-c++/C文件(小熊猫)/C_learn/练习使用并手搓qsort/quicksort_int.c",
         "focused": false,
+        "isOpen": false,
+        "leftChar": 1,
+        "topLine": 1
+    },
+    {
+        "caretX": 16,
+        "caretY": 15,
+        "filename": "F:/Dev-c++/C文件(小熊猫)/C_learn/练习使用并手搓qsort/main.c",
+        "focused": true,
         "isOpen": true,
         "leftChar": 1,
-        "order": 3,
-        "topLine": 4
+        "order": 0,
+        "topLine": 1
     }
 ]
