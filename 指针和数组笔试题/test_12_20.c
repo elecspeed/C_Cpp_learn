@@ -69,13 +69,72 @@
 //}
 
 //程序运行结果是什么
-int main()
-{
-	int a[4] = { 1,2,3,4 };
-	int b = 0x11223344;
-	int* ptr1 = (int*)(&a + 1);
-	int* ptr2 = (int*)((long long)a + 1);
-	printf("%#x,%#x\n", ptr1[-1], *ptr2);	//
+//int main()
+//{
+//	int a[4] = { 1,2,3,4 };
+//	int* ptr1 = (int*)(&a + 1);
+//	int* ptr2 = (int*)((unsigned long)a + 1);
+//	printf("%#x,%#x\n", ptr1[-1], *ptr2);	//0x4, 0x2000000（小端）或0x100（大端）
+//
+//	return 0;
+//}
 
-	return 0;
-}
+//程序运行结果是什么
+//int main()
+//{
+//	int a[3][2] = { (0, 1), (2, 3), (4, 5) };
+//	int* p = a[0];
+//	p = a[0];
+//	printf("%d\n", p[0]);		//1
+//
+//	return 0;
+//}
+
+//程序运行结果是什么
+//int main()
+//{
+//	int a[5][5];
+//	int (*p)[4];
+//	p = a;
+//	printf("%p,%d\n", &p[4][2] - &a[4][2], &p[4][2] - &a[4][2]);	//FF FF FF FC, -4
+//
+//	return 0;
+//}
+
+//程序运行结果是什么
+//int main()
+//{
+//	int aa[2][5] = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+//	int* ptr1 = (int*)(&aa + 1);
+//	int* ptr2 = (int*)(*(aa + 1));
+//
+//	printf("%d,%d\n", *(ptr1 - 1), *(ptr2 - 1));	//10, 5
+//	return 0;
+//}
+
+
+//程序运行结果是什么
+//int main()
+//{
+//	char* a[] = { "work", "at", "alibaba" };
+//	char** pa = a;
+//
+//	pa++;
+//	printf("%s\n", *pa);	//at
+//	return 0;
+//}
+
+
+//程序运行结果是什么
+//int main()
+//{
+//	char* c[] = { "enter", "new", "point", "first" };
+//	char** cp[] = { c + 3, c + 2, c + 1, c };
+//	char*** cpp = cp;
+//
+//	printf("%s\n", **++cpp);			//point
+//	printf("%s\n", *-- * ++cpp + 3);	//er
+//	printf("%s\n", *cpp[-2] + 3);		//st
+//	printf("%s\n", cpp[-1][-1] + 1);	//ew
+//	return 0;
+//}
