@@ -173,7 +173,7 @@
 //	char tmp[10000] = "\0";
 //	strcpy(tmp, s1);
 //	char* ptmp = strncat(tmp, tmp, len1);	//tmp后再加tmp。
-//											//自加用strncat，两个字符串相加才用strcat（详见字符串的使用）
+//											//自加用strncat，两个字符串相加才用strcat（详见字符函数和字符串函数）
 //	
 //	// 2.判断s2指向的字符串，是不是tmp的子串
 //	//可以用库函数strstr
@@ -210,6 +210,80 @@
 //		printf("YES\n");
 //	else
 //		printf("NO\n");
+//	return 0;
+//}
+
+//剑指offer
+//有一个数字矩阵，矩阵的每行从左到右递增，每列从上到下递增
+//编写程序查找某个数字是否存在
+//要求：时间复杂度小于O(N)；
+//
+//法一：对每行进行二分查找（略）
+//法二：发现右上角和左下角的数字有规律
+//int check_arr(int arr[][3], int check, int row, int col)
+//{
+//	int x = 0, y = col - 1;
+//	while (x < row-1 && y > 0)
+//	{
+//		if (arr[x][y] > check)		//右上角的数字比check大，则最右列都比check大，排除
+//			y--;
+//		else if (arr[x][y] < check)	//右上角的数字比check小，则第一行都比check小，排除
+//			x++;
+//		else
+//			return 1;
+//	}
+//	return 0;
+//}
+//int main()
+//{
+//	int arr[3][3] = { {1,2,3}, {2,3,4}, {3,4,5} };
+//	int ret = check_arr(arr, 12, 3, 3);	//存在返回1，否则返回0
+//	if (ret)
+//		printf("找到了\n");
+//	else
+//		printf("不存在\n");
+//
+//	return 0;
+//}
+//思考：如果改成要求得到check的坐标？
+//1.如果check只存在一个，如何从函数内部带出两个数？
+//2.如果check存在多个，如何从函数内部带出多个数？
+//解决方案：地址传参
+//
+//void check_arr(int arr[][3], int check, int row, int col, int index[][2])
+//{
+//	int x = 0, y = col - 1;
+//	int count = 0;					//计算check在arr内有多少个
+//	while (x <= row - 1 && y >= 0)
+//	{
+//		if (arr[x][y] > check)		//右上角的数字比check大，则最右列都比check大，排除
+//			y--;
+//		else if (arr[x][y] < check)	//右上角的数字比check小，则第一行都比check小，排除
+//			x++;
+//		else
+//		{
+//			index[count][0] = x--;	//别忘了修改x和y！卡了我一个小时，c
+//			index[count][1] = y--;
+//			count++;
+//		}
+//	}
+//	int i = 0;
+//	for (i = count; i < row * col; i++)	//多出的index部分全改成-1
+//		index[i][0] = index[i][1] = -1;
+//}
+//int main()
+//{
+//	int arr[3][3] = { {1,2,3}, {2,3,4}, {3,4,5} };
+//	int k = 3;
+//	int index[9][2] = { 0 };	//假设每个数字都是要找的数，则共有3*3 == 9个坐标组
+//	
+//	//返回型参数
+//	check_arr(arr, k, 3, 3, index);
+//
+//	int i = 0;
+//	for (i = 0; i < 9; i++)
+//		printf("(%d,%d)\n", index[i][0], index[i][1]);
+//	
 //	return 0;
 //}
 
