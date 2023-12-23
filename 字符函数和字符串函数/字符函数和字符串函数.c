@@ -241,7 +241,24 @@ char* my_strncat(char* dest, const char* sour, unsigned int count)
 	assert(sour);
 	char* ret = dest;
 
+	//我写的
+	while (*dest)	//找目的字符串的'\0'
+		dest++;
+	 
+	while (*dest++ = *sour++ && count--);	//追加sour字符串
+	return ret;
 
+	//标准答案
+	//while (*dest++)
+	//	;
+	//dest--;
+
+	//while (count--)
+	//	if ((*dest++ = *sour++) == 0)
+	//		return(ret);
+
+	//*front = '\0';
+	//return ret;
 }
 
 
@@ -252,3 +269,9 @@ char* my_strncat(char* dest, const char* sour, unsigned int count)
 // int strncmp( const char *string1, const char *string2, size_t count );
 // 表示在strcmp的基础上，只操作两个字符串的前count个字节
 //
+
+//手搓strncmp
+//int my_strncmp(const char* dest, const char* sour, unsigned int count)
+//{
+//
+//}
