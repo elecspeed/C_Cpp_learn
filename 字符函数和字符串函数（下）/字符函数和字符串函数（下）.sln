@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34330.188
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "字符函数和字符串函数（下）", "字符函数和字符串函数（下）.vcxproj", "{67D35A36-7C97-4270-8819-95544781A143}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{67D35A36-7C97-4270-8819-95544781A143}.Debug|x64.ActiveCfg = Debug|x64
+		{67D35A36-7C97-4270-8819-95544781A143}.Debug|x64.Build.0 = Debug|x64
+		{67D35A36-7C97-4270-8819-95544781A143}.Debug|x86.ActiveCfg = Debug|Win32
+		{67D35A36-7C97-4270-8819-95544781A143}.Debug|x86.Build.0 = Debug|Win32
+		{67D35A36-7C97-4270-8819-95544781A143}.Release|x64.ActiveCfg = Release|x64
+		{67D35A36-7C97-4270-8819-95544781A143}.Release|x64.Build.0 = Release|x64
+		{67D35A36-7C97-4270-8819-95544781A143}.Release|x86.ActiveCfg = Release|Win32
+		{67D35A36-7C97-4270-8819-95544781A143}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5E553293-BB5D-472E-948B-4DEC38DFA871}
+	EndGlobalSection
+EndGlobal
