@@ -149,7 +149,7 @@
 // 0  -   No error
 // 1  -   Operation not permitted
 // 2  -   No such file or directory
-// ...
+// ...（详见errno声明）
 
 //实际用法
 //#include <errno.h>
@@ -176,4 +176,68 @@
 //	else
 //		printf("open file success\n");
 //	return 0;
+//}
+
+//手搓strerror（略）
+
+
+
+//11.字符分类函数
+// 函数	          如果参数是下列类型的字符就返回非零
+// iscntrl        控制字符
+// isspace        空白字符：包括空格、换页'\f'、换行'\n'、回车'\r'、制表符'\t'和垂直制表符'\v'
+// isdigit        十进制数字
+// isxdigit       十六进制数字（a-f大小写均可）
+// islower        小写字母
+// isupper        大写字母
+// isalpha        字母
+// isalnum        字母或数字
+// ispunct        任何不属于数字或字母的图形字符（不是isalnum的补集）
+// isgraph        任何图形字符
+// isprint        可打印字符：包括空白字符和图形字符
+//
+//#include <ctype.h>
+//
+//int main()
+//{
+//    //char ch = 'j';
+//    //int ret = islower(ch);
+//
+//    //char ch = '8';
+//    //int ret = isdigit(ch);
+//
+//    char ch = 'W';
+//    int ret = isupper(ch);
+//
+//    printf("%d\n", ret);
+//    return 0;
+//} 
+
+
+
+//12.字符转换函数
+// int tolower( int c );
+// int toupper( int c );
+//
+//#include <ctype.h>
+//
+//int main()
+//{
+//    //char ch = tolower('A');
+//    //putchar(ch);
+//
+//    //ch = toupper('b');
+//    //putchar(ch);
+//
+//    char arr[] = "I Am A Student";
+//    int i = 0;
+//    while (arr[i])
+//    {
+//        if (isupper(arr[i]))
+//            arr[i] = tolower(arr[i]);
+//        i++;
+//    }
+//
+//    printf("%s\n", arr);
+//    return 0;
 //}
