@@ -1,7 +1,7 @@
 #define _CRT_SECURE_NO_WARNINGS 1
 
 #include <stdio.h>
-#include <memory.h>
+#include <string.h>
 #include <assert.h>
 
 //虽然有了字符函数和字符串函数，但这些函数只能操作字符（只有一个字节）和字符串（只有一个字节是0)
@@ -96,47 +96,90 @@
 //
 
 //手搓memmove
-void* my_memmove(void* dest, const void* sour, size_t count)
-{
-    assert(dest);
-    assert(sour);
-    char* d = (char*)dest;
-    char* s = (char*)sour;
+//void* my_memmove(void* dest, const void* sour, size_t count)
+//{
+//    assert(dest);
+//    assert(sour);
+//    char* d = (char*)dest;
+//    char* s = (char*)sour;
+//
+//    if (d < s)
+//        while (*d++ = *s++, --count);   //dest在sour左边，则从左到右逐个拷贝
+//    else if (d == s)
+//        return dest;                       //dest == sour，完全重叠，不用拷贝
+//    else if (d <= s + count)
+//    {
+//        s += count - 1;
+//        d += count - 1;
+//        while (*d-- = *s--, --count);   //dest在(sour, sour+count]中间，则从右到左逐个拷贝
+//    }
+//    else
+//    {
+//        //dest在sour+count右边，可以从左到右逐个拷贝
+//        //while (*d++ = *s++, --count);
+//
+//        //也可以从右到左逐个拷贝
+//        s += count - 1;
+//        d += count - 1;
+//        while (*d-- = *s--, --count);
+//    }
+//    //可以画区间图方便理解
+//
+//    return dest;
+//}
+//int main()
+//{
+//    int arr[10] = { 1,2,3,4,5,6,7,8,9,10 };
+//
+//    //my_memmove(arr, arr + 2, 5 * sizeof(arr[0]));
+//    my_memmove(arr + 3, arr + 1, 20);
+//
+//    //调试看结果
+//    return 0;
+//}
 
-    if (d < s)
-        while (*d++ = *s++, --count);   //dest在sour左边，则从左到右逐个拷贝
-    else if (d == s)
-        return d;                       //dest == sour，完全重叠，不用拷贝
-    else if (d <= s + count)
-    {
-        s += count - 1;
-        d += count - 1;
-        while (*d-- = *s--, --count);   //dest在(sour, sour+count]中间，则从右到左逐个拷贝
-    }
-    else
-    {
-        //dest在sour+count右边，可以从左到右逐个拷贝
-        //while (*d++ = *s++, --count);
 
-        //也可以从右到左逐个拷贝
-        s += count - 1;
-        d += count - 1;
-        while (*d-- = *s--, --count);
-    }
-    //可以画区间图方便理解
 
-    return dest;
-}
-int main()
-{
-    int arr[10] = { 1,2,3,4,5,6,7,8,9,10 };
+//3.memcmp
+// 将strncmp声明的char*改为void*即为memcmp的声明
+// 
+// 声明
+// int memcmp( const void *buf1, const void *buf2, size_t count );
+// 
+// 标准规定同strcmp
+//
+//int main()
+//{
+//    int arr1[] = { 1,2,3,4,5 };
+//    int arr2[] = { 1,2,5,6,7 };
+//
+//    int ret = memcmp(arr1, arr2, 8);
+//    printf("%d\n", ret);
+//
+//    ret = memcmp(arr1, arr2, 9);
+//    printf("%d\n", ret);
+//
+//    return 0;
+//}
 
-    //my_memmove(arr, arr + 2, 5 * sizeof(arr[0]));
-    my_memmove(arr + 3, arr + 1, 20);
+//手搓memcmp（略，可参考strncmp）
 
-    int i = 0;
-    for (i = 0; i < 10; i++)
-        printf("%d ", arr[i]);
 
-    return 0;
-}
+
+//4.memset - 内存设置
+// Sets buffers to a specified character.
+// 
+// 声明
+// void *memset( void *dest, int c, size_t count );
+//
+//int main()
+//{
+//    char arr[10] = "";
+//    memset(arr, '!', 10);
+//
+//    int arr2[10] = { 0 };
+//    memset(arr2, 1, 10);
+//
+//    //调试看结果
+//    return 0;
+//}
