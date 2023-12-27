@@ -11,32 +11,48 @@
 //结构体传参
 //结构体实现位段
 
-//offsetof
-// Retrieves the offset of a member from the beginning of its parent structure.
-// 计算偏移量
+//位段
 // 
-// 宏声明（不是函数）
-// size_t offsetof( structName, memberName );
-// 
-// 需要stddef库
+// 声明和结构体类似，两个不同：
+// 1.成员只能是整型，且最好只有char、short、int、long中的一个，符号不做要求
+// 2.段位的成员名后面有一个冒号和一个数字
 //
-//#include <stddef.h>
 //struct S
 //{
-//    char a;
-//    int b;
-//    double c;
+//    int a : 2;
+//    int b : 5;
+//    int c : 10;
+//    int d : 30;
 //};
 //int main()
 //{
-//    printf("%llu\n", offsetof(struct S, a));
-//    printf("%llu\n", offsetof(struct S, b));
-//    printf("%llu\n", offsetof(struct S, c));
-//
+//    struct S s;
+//    printf("%zd\n", sizeof(s));
 //    return 0;
 //}
+//结果是8
+//冒号加一个数字表示只取这么多个bit（因为实际情况可能用不到int的4个字节）
+//那不应该是47个bit，6个字节就够了吗？
 
-//手搓offsetof（待续，学到宏再补上）
+//位段的内存分配
+// 1.段位的空间是按照需要以4个字节或1个字节来开辟的
+// 2.段位的很多东西标准没有规定，不同编译器下运行结果不同
+
+//位段的跨平台问题
+// 1.int位段被当成有符号数还是无符号数不确定
+// 2.int a : 17; 在32位机器上可以，在16位机器上就会出问题
+// 3.段位成员是从左往右分配内存，还是从右往左分配不确定
+// 4.一个位段剩余的bit容不下一个成员是，
+//
+
+
+
+
+//结构体传参
+//建议传指针，原因：
+//1.传值会再开辟一段空间，消耗性能
+//2.传指针可以改变实参
+
 
 
 //内存对齐
@@ -55,22 +71,22 @@
 //int main()
 //{
 //    struct S1 s1 = { 0 };
-//    printf("%zd\n", sizeof(s1));//12，4（char）+ 4（int）+ 4（char）
+//    printf("%zd\n", sizeof(s1));  //12
 //    
 //    struct S2 s2 = { 0 };
-//    printf("%zd\n", sizeof(s2));//8，4（两个char）+ 4（int）
+//    printf("%zd\n", sizeof(s2));  //8
 //
 //    return 0;
 //}
 // 结构体对齐规则
 // 1.第一个成员的地址 == 结构体变量的地址（只是地址相等，访问长度不相等）
-// 2.在不冲突的前提下，其他成员的地址是从首成员地址往后的 对齐数的整数倍的 地址
-//   （即偏移量是对齐数的整数倍）
-// 3.结构体总大小为，成员中最大对齐数的整数倍
+// 2.在不冲突的前提下，其他成员的地址是 从首成员地址往后的 对齐数的整数倍的 地址
+//   （即如果设偏移量 = 该成员地址 - 首成员地址，则偏移量是对齐数的整数倍）
 // 
 // 对齐数 == 编译器默认的对齐数 与 该成员大小 的较小值
 // vs默认对齐数为8，gcc无默认对齐数
 // 
+// 3.结构体总大小为，成员中最大对齐数的整数倍
 // 4.结构体嵌套
 //   内层结构体的对齐数是其本身的最大对齐数，其余同上
 // 
@@ -98,6 +114,33 @@
 //    printf("%zd\n", sizeof s);
 //    return 0;
 //}
+
+//offsetof
+// Retrieves the offset of a member from the beginning of its parent structure.
+// 计算偏移量
+// 
+// 宏声明（不是函数）
+// size_t offsetof( structName, memberName );
+// 
+// 需要stddef库
+//
+//#include <stddef.h>
+//struct S
+//{
+//    char a;
+//    int b;
+//    double c;
+//};
+//int main()
+//{
+//    printf("%d\n", offsetof(struct S, a));
+//    printf("%d\n", offsetof(struct S, b));
+//    printf("%d\n", offsetof(struct S, c));
+//
+//    return 0;
+//}
+
+//手搓offsetof（百度题。待续，学到宏再补上）
 
 
 
@@ -139,7 +182,7 @@
 //{
 //    int a;
 //    char b;
-//}x, xarr[5];
+//}x;
 //struct
 //{
 //    int a;
