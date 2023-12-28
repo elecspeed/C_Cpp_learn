@@ -1,10 +1,14 @@
+#define _CRT_SECURE_NO_WARNINGS 1
+
 //1.创建1个1000好友的通讯录
 //  姓名，年龄，性别，电话，住址...
 //2.增删查改
 // a.增加好友信息
 // b.删除
-// c.查找特定名字的好友信息
+// c.查找
 // d.修改
+// 其中删查改用名字作索引
+// 
 //3.打印好友信息
 //4.排序
 //......
@@ -36,19 +40,25 @@ int main()
         scanf("%d", &input);
         switch (input)
         {
-        case 1:
+        case ADD:
+            AddContact(&con);
             break;
-        case 2:
+        case DEL:
+            DelContact(&con);
             break;
-        case 3:
+        case SEARCH:
+            SearchContact(&con);
             break;
-        case 4:
+        case MODIFY:
+            ModifyContact(&con);
             break;
-        case 5:
+        case SHOW:
+            ShowContact(&con);
             break;
-        case 6:
+        case SORT:
+            SortContact(&con);
             break;
-        case 0:
+        case EXIT:
             printf("退出通讯录\n");
             break;
         default:
