@@ -2,8 +2,8 @@
 
 //为什么要动态内存分配
 //动态内存函数
-//柔性数组
 //题目
+//柔性数组
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -46,7 +46,7 @@
 // void *malloc( size_t size );
 // 
 // size表示要开辟的字节数
-// 返回值：开辟空间的首地址或NULL（可能没有足够的可用空间）
+// 返回值：开辟空间的首地址 或 NULL（可能没有足够的可用空间）
 // 
 // 需要stdlib库或malloc库（free，realloc，calloc同）
 
@@ -113,7 +113,7 @@
 // 声明
 // void *calloc( size_t num, size_t size );
 // 
-// num表示元素个数，size表示元素大小
+// num表示元素个数，size表示元素大小（单位是字节）
 
 //int main()
 //{
@@ -142,30 +142,75 @@
 // 声明
 // void *realloc( void *memblock, size_t size );
 // 
-// memblock是动态开辟空间的首地址 或 NULL
+// memblock是之前动态开辟的空间的首地址 或 NULL
 // size是新空间的大小，单位是字节
 // 
-// memblock是NULL，则
-// realloc另开辟一块空间在堆区，大小为size个字节（同malloc）
+// memblock是NULL，则realloc就是malloc
 // 
-// memblock是动态开辟空间的首地址，则
-// realloc先开辟一块size个字节的空间，再拷贝memblock给这个新空间。
-// 新空间小于旧空间时，拷贝会丢失尾部数据
+// memblock是之前动态开辟的空间的首地址，则
+// 1.realloc先开辟一块空间，再拷贝原数据到新空间，最后释放旧空间。
+// 2.新空间小于旧空间时，拷贝会丢失尾部数据。
+// 3.返回新地址 或 NULL（可能没有足够的空间）
 //
 
-int main()
-{
-    int* p = (int*)malloc(20);
-    if (!p)
-        printf("%s\n", strerror(errno));
-    else
-    {
-        int i = 0;
-        for (i = 0; i < 5; i++)
-            *(p + i) = i;
-    }
-    //此时只使用了malloc开辟的20个字节空间
-    
+//int main()
+//{
+//    int* p = (int*)malloc(20);
+//    if (!p)
+//        printf("%s\n", strerror(errno));
+//    else
+//    {
+//        int i = 0;
+//        for (i = 0; i < 5; i++)
+//        {
+//            p[i] = i;
+//        }
+//    }
+//    //此时只使用了malloc开辟的20个字节空间
+//    
+//    //p = (int*)realloc(p, 12);
+//    int* ptmp = (int*)realloc(p, 24);         //用临时指针存，防止返回NULL
+//    if (!p)
+//        printf("%s\n", strerror(errno));
+//    else
+//    {
+//        p = ptmp;
+//        ptmp = NULL;
+//    }
+//    //...
+//    free(p);
+//    p = NULL;
+//    
+//    //调试看结果
+//    return 0;
+//}
+// 注意事项：
+// 1.一块空间建议只用一个维护指针来管理
+// 2.realloc要结合临时指针一起用，防止返回NULL。没有新空间也罢，但原空间别搞丢了
+// 3.使用realloc成功后旧空间已经释放，不用再free
+//
 
-    return 0;
-}
+
+
+//常见错误：
+// 1.忘记检查指针是否为NULL
+// 2.对动态开辟内存的越界访问
+// 3.对非动态开辟的内存free
+// 4.free释放的空间和开辟的空间大小不同（意味着，改变了维护指针指向的地址）
+// 5.对同一块动态内存多次free
+// 6.忘记释放动态内存（会导致内存泄露）
+
+//int main()
+//{
+//    //严重内存泄漏
+//    while (1)
+//    {
+//        malloc(1);
+//    }
+//
+//    //运行后打开任务管理器查看内存
+//    //内存会一点点被榨干
+//    //多数系统有内存保护机制，内存泄露到一定高度就停止（不保证有些系统没有）
+//    //在内存崩溃前回到控制台，按键盘上的 crtl + C 停止程序
+//    return 0;
+//}
