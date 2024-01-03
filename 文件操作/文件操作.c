@@ -260,5 +260,128 @@
 //int sscanf( const char *buffer, const char *format [, argument ] ... );
 //将前面的字符串buffer，按照format的格式读取数据，再存储到后面的参数
 
+//struct S
+//{
+//    char name[20];
+//    int age;
+//    double score;
+//};
+//int main()
+//{
+//    struct S s[3] = {
+//        { "张三", 20, 59.9},
+//        { "张三", 20, 59.9 },
+//        { "张三", 20, 59.9 },
+//    };
+//    FILE* pf = fopen("test.txt", "wb");
+//    if (!pf)
+//        return 0;
+//    //以二进制的形式写文件
+//    fwrite(&s, sizeof(struct S), 3, pf);
+//
+//    fclose(pf);
+//    pf = NULL;
+//
+//    //打开同目录的test.txt文件看结果
+//    return 0;
+//}
+//int main()
+//{
+//    struct S s[3] = { 0 };
+//    FILE* pf = fopen("test.txt", "rb");
+//    if (!pf)
+//        return 0;
+//    //以二进制的形式读文件
+//    fread(&s, sizeof(struct S), 3, pf);
+//
+//    fclose(pf);
+//    pf = NULL;
+//
+//    //调试看结果
+//    return 0;
+//}
 
 
+
+//文件的随机读写
+
+//fseek
+// 定位文本指针（不是文件指针）指向特定的文本位置
+// 
+// 声明
+// int fseek( FILE *stream, long offset, int origin );
+// 
+// offset：偏移量
+// origin：开始偏移的位置，有SEEK_CUR（当前文本指针的位置）, SEEK_END 和 SEEK_SET
+//
+//int main()
+//{
+//    FILE* pf = fopen("test.txt", "r");
+//    if (!pf)
+//        return 0;
+//    //1.定位文本指针
+//    fseek(pf, -2, SEEK_END);      //SEEK_END一般是'\0'
+//
+//    //2.读取文件
+//    int ch = fgetc(pf);
+//    printf("%c\n", ch);
+//
+//    fclose(pf);
+//    pf = NULL;
+//    return 0;
+//}
+
+//ftell
+// 计算文本指针相对于SEEK_SET的偏移量
+// 
+// 声明
+// long ftell( FILE *stream );
+//
+//int main()
+//{
+//    FILE* pf = fopen("test.txt", "r");
+//    if (!pf)
+//        return 0;
+// 
+//    //文本指针在起始位置
+//    long pos = ftell(pf);
+//    printf("%ld\n", pos);
+//
+//    //文本指针在起始位置后3个字节处
+//    fseek(pf, 3, SEEK_SET);
+//    pos = ftell(pf);
+//    printf("%ld\n", pos);
+//
+//    fclose(pf);
+//    pf = NULL;
+//    return 0;
+//}
+
+//rewind
+// 让文本指针回到SEEK_SET位置
+// 
+// 声明
+// void rewind( FILE *stream );
+//
+//int main()
+//{
+//    FILE* pf = fopen("test.txt", "r");
+//    if (!pf)
+//        return 0;
+//
+//    fseek(pf, 3, SEEK_SET);
+//    rewind(pf);
+//
+//    int ch = fgetc(pf);
+//    printf("%c\n", ch);
+//
+//    fclose(pf);
+//    pf = NULL;
+//    return 0;
+//}
+
+
+
+//文件的结束判定
+//
+//
