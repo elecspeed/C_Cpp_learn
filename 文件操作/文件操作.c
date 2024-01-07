@@ -55,7 +55,6 @@
 //该文件信息区用来存放文件的相关信息（如文件名，文件状态，文件位置等）
 //在C语言看来，这些文件信息区就是结构体变量
 //系统将该结构体类型声明为FILE
-//不同编译器对FILE的定义非常相似
 //每使用一个文件，系统就创建一个FILE结构体变量，并自动填充相关信息
 //当文件内容发生变化，FILE结构体成员变量也会发生变化
 // 
@@ -311,7 +310,7 @@
 // 声明
 // int fseek( FILE *stream, long offset, int origin );
 // 
-// offset：偏移量
+// offset：偏移量，单位是字节
 // origin：开始偏移的位置，有SEEK_CUR（当前文本指针的位置）, SEEK_END 和 SEEK_SET
 //
 //int main()
@@ -332,7 +331,7 @@
 //}
 
 //ftell
-// 计算文本指针相对于SEEK_SET的偏移量
+// 计算文本指针相对于SEEK_SET的偏移量，单位是字节
 // 
 // 声明
 // long ftell( FILE *stream );
@@ -382,6 +381,80 @@
 
 
 
-//文件的结束判定
+//文件结束的判定
+// fgetc，fgets，fread 都有返回值，以下情况说明读取结束 或 发生错误
+// 
+// fgetc    返回EOF（end of file，文件结束标志，值为-1）
+// fgets    返回NULL，值为0
+// fread    返回值小于实际要读的个数
+
+//feof
+// Tests for end-of-file on a stream.
+// 判断文件结束的原因（是不是读取结束）
+// 
+// 声明
+// int feof( FILE *stream );
+// 
+// 是读取结束，则返回非零（即返回真）
+// 
+
+//ferror
+// Tests for an error on a stream.
+// 判断文件结束的原因（是不是发生错误）
+// 
+// 声明
+// int ferror( FILE *stream );
+// 
+// 是发生错误，则返回非零（即返回真）
+// 
+
+//feof 和 ferror 常常一起使用
+
+//先介绍perror
+// strerror - 把错误码对应的字符串 的地址返回
+// perror - 在错误信息前加上自定义说明，直接打印
 //
+//int main()
+//{
+//    FILE* pf = fopen("test2.txt", "r");
+//    if (!pf)
+//    {
+//        //perror("");
+//        perror("abcd");
+//        return 0;
+//    }
+//    //...
 //
+//    fclose(pf);
+//    pf = NULL;
+//    return 0;
+//}
+
+//使用 feof 和 ferror
+//int main()
+//{
+//    //打开test.txt文件
+//    FILE* pf = fopen("test.txt", "r");
+//    if (!pf)
+//    {
+//        perror("fail to open test.txt");
+//        return 0;
+//    }
+//
+//    //循环读取文件
+//    int ch = 0;
+//    while ((ch = fgetc(pf)) != EOF)
+//        putchar(ch);
+//    printf("\n");
+//
+//    //判断循环结束的原因
+//    if (ferror(pf))
+//        puts("I/O error when reading");
+//    else if (feof(pf))
+//        puts("End of file reached successfully");
+//
+//    //关闭文件
+//    fclose(pf);
+//    pf = NULL;
+//    return 0;
+//}
