@@ -87,6 +87,7 @@
  */
 
 extern int n;
+// ./4_test_03_16(2).c 还有 long n;
 
 int main()
 {
