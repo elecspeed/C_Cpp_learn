@@ -9,8 +9,6 @@
 //     // char ch = 126;
 //     // unsigned char ch = 126;
 //     // putchar(ch);
-//     // 有些机器的 ASCII 码是 -64~63，对应 char 的范围
-//     // 有些则是 0~128，对应 unsigned char
 
 //     int ch;
 //     while ((ch = getchar()) != EOF)
