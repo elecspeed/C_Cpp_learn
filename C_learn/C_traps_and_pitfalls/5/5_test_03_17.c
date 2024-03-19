@@ -56,20 +56,27 @@
 // #include <stdlib.h>
 // int main()
 // {
-//     // char buffer[BUFSIZ];
 //     char *buffer;
 //     buffer = (char *)malloc(BUFSIZ);
-//     // 用 setbuf 设置的缓冲区大小只能是 BUFSIZ：512。
-//     // 想设置不一样的大小，用另一个函数 setvbuf。
-//     // setbuf 是早期版本，setvbuf 出现后将 setbuf 重构了，
-//     // 留下 setbuf 以便兼容早期的 C 代码。
+//     /*
+//      * 用 setbuf 设置的缓冲区大小只能是 BUFSIZ：512。
+//      * 想设置不一样的大小，用另一个函数 setvbuf。
+//      * setbuf 是早期版本，setvbuf 出现后将 setbuf 重构了，
+//      * 留下 setbuf 以便兼容早期的 C 代码。
+//      */
 
 //     setbuf(stdout, NULL);   // 标准输出没有缓冲区
 //     setbuf(stdout, buffer); // 标准输出有缓冲区：buffer
 
-//     int ch;
-//     while ((ch = getchar()) != EOF)
-//         putchar(ch);
+//     int i;
+//     for (i = 0; i < 10000; ++i)
+//         printf("%d ", i);
+
+//     /*
+//      * 没有用 fflush 清空缓冲区是因为缓冲区在堆区
+//      * 位于堆区和静态区的缓冲区，程序会自动 flush
+//      * 而位于栈区的缓冲区，函数结束后就被释放，找不到了
+//      */
 //     return 0;
 // }
 
