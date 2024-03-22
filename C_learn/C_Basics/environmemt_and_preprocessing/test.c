@@ -110,3 +110,59 @@
 
 // 下面详细研究预处理
 //
+
+// 预定义符号
+// 语言本身定义好的，不是我们自己定义的 #define ...
+//
+
+//int main()
+//{
+//    printf("%d\n", __LINE__);
+//    printf("%s\n", __FILE__);
+//    printf("%s\n", __DATE__);
+//    printf("%s\n", __TIMESTAMP__);
+//    printf("%s\n", __TIME__);
+//    printf("%s\n", __FUNCDNAME__);
+//    printf("%s\n", __FUNCSIG__);
+//    printf("%s\n", __FUNCTION__);
+//    // 上面的预定义符号可用来写日志文件
+//
+//    // 特殊的预定义符号 __STDC__
+//    // 如果编译器严格遵循 C 标准，其值为 1，否则未定义
+//    //printf("%d\n", __STDC__);
+//
+//    return 0;
+//}
+
+// 预处理指令。以 # 开头
+// #define
+// #include
+// #pragma pack(4)
+// #pragma
+// #if
+// #endif
+// #ifdef
+// #line
+//
+
+// #define 定义标识符
+//
+
+#define TEN 10
+#define STR "hello"
+#define reg register
+
+#define do_forever for(;;)
+#define DEBUG_PRINT printf("file:%s\tline:%d\t"\
+                        "date:%s\ttime:%s\n",\
+                        __FILE__, __LINE__,\
+                        __DATE__, __TIME__)
+int main()
+{
+    printf("%d\n", TEN);
+    printf("%s\n", STR);
+    reg int a;
+
+    DEBUG_PRINT;
+    return 0;
+}
