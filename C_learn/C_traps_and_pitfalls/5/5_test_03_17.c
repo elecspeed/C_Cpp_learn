@@ -86,4 +86,6 @@
  * void
  * (*signal(int sig, void(__cdecl *func)(int sig [, int subcode])))
  * (int sig);
+ * 
+ * 先不练，等学了 Linux 系统编程后再来
  */
