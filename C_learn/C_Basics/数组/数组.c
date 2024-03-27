@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <string.h>
 
 // 选择排序（升序）
 //
@@ -70,6 +69,7 @@
 // 数组不完全初始化,剩下的默认初始化为0（注意字符数组的'\0'也是0)
 //
 
+// #include <string.h>
 // int main()
 // {
 //     char arr[] = "abcdef";
