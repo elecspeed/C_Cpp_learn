@@ -3,138 +3,130 @@
 #include <stdio.h>
 #include <string.h>
 
-//int main()
-//{
-//	//ÏÂÃæµÄ³ÌĞòÔËĞĞ½á¹ûÊÇÊ²Ã´
-//	//int a[] = { 1,2,3,4 };
-//	//printf("%zd\n", sizeof(a));		//16
-//	//printf("%zd\n", sizeof(a + 0));	//4/8
-//	//printf("%zd\n", sizeof(*&a));	//16
-//	//printf("%zd\n", sizeof(&*a));	//4/8
-//	
-//	//char arr[] = { 'a', 'b', 'c', 'd', 'e', 'f' };
-//	//printf("%zd\n", sizeof(arr));			//6
-//	//printf("%zd\n", sizeof(arr + 0));		//4/8
-//	//printf("%zd\n", sizeof(*arr));			//1
-//	//printf("%zd\n", sizeof(&arr));			//4/8
-//	//printf("%d\n", strlen(arr));			//Ëæ»úÖµM
-//	////printf("%d\n", strlen(*arr));			//error
-//	//printf("%d\n", strlen(&arr));			//Ëæ»úÖµM
-//	//printf("%d\n", strlen(&arr + 1));		//Ëæ»úÖµN£¬N+6==M
+// int main()
+// {
+//     // ä¸‹é¢çš„ç¨‹åºè¿è¡Œç»“æœæ˜¯ä»€ä¹ˆ
+//     int a[] = {1, 2, 3, 4};
+//     printf("%zd\n", sizeof(a));     // 16
+//     printf("%zd\n", sizeof(a + 0)); // 4/8
+//     printf("%zd\n", sizeof(*&a));   // 16
+//     printf("%zd\n", sizeof(&*a));   // 4/8
 //
-//	//Èç¹û»»³Échar arr[] = "abcdef"; ÄØ£¿
-//	//»òÕß char* p = "abcdef"; ÄØ£¿
+//     char arr[] = {'a', 'b', 'c', 'd', 'e', 'f'};
+//     printf("%zd\n", sizeof(arr));     // 6
+//     printf("%zd\n", sizeof(arr + 0)); // 4/8
+//     printf("%zd\n", sizeof(*arr));    // 1
+//     printf("%zd\n", sizeof(&arr));    // 4/8
+//     printf("%d\n", strlen(arr));      // éšæœºå€¼ M
+//     printf("%d\n", strlen(*arr));     // error
+//     printf("%d\n", strlen(&arr));     // éšæœºå€¼ M
+//     printf("%d\n", strlen(&arr + 1)); // éšæœºå€¼ Nï¼ŒN + 6 == M
 //
-//	//int b[3][4] = { 0 };
-//	//printf("%zd\n", sizeof(b));				//48
-//	//printf("%zd\n", sizeof(b[0]));			//16
-//	//printf("%zd\n", sizeof(b[0] + 1));		//4/8£¬[0][1]µÄµØÖ·
-//	//printf("%zd\n", sizeof(*(b[0] + 1)));	//4
-//	//printf("%zd\n", sizeof(b + 1));			//4/8£¬µÚ¶şĞĞµÄµØÖ·
-//	//printf("%zd\n", sizeof(*(b + 1)));		//16
-//	//printf("%zd\n", sizeof(*b));			//16
-//	//printf("%zd\n", sizeof(*(&b[0] + 1)));	//16
-//	//printf("%zd\n", sizeof(b[3]));			//16
+//     // å¦‚æœæ¢æˆchar arr[] = "abcdef"; å‘¢ï¼Ÿ
+//     // æˆ–è€… char* p = "abcdef"; å‘¢ï¼Ÿ
 //
-//	return 0;
-//}
+//     int b[3][4] = {0};
+//     printf("%zd\n", sizeof(b));            // 48
+//     printf("%zd\n", sizeof(b[0]));         // 16
+//     printf("%zd\n", sizeof(b[0] + 1));     // 4/8ï¼Œ[0][1]çš„åœ°å€
+//     printf("%zd\n", sizeof(*(b[0] + 1)));  // 4
+//     printf("%zd\n", sizeof(b + 1));        // 4/8ï¼Œç¬¬äºŒè¡Œçš„åœ°å€
+//     printf("%zd\n", sizeof(*(b + 1)));     // 16
+//     printf("%zd\n", sizeof(*b));           // 16
+//     printf("%zd\n", sizeof(*(&b[0] + 1))); // 16
+//     printf("%zd\n", sizeof(b[3]));         // 16
+//     return 0;
+// }
 
-//³ÌĞòÔËĞĞ½á¹ûÊÇÊ²Ã´
-//int main()
-//{
-//	int a[5] = { 1,2,3,4,5 };
-//	int* ptr = (int*)(&a + 1);
-//	printf("%d,%d\n", *(a + 1), *(ptr - 1));	//2,5
-//	return 0;
-//}
+// ç¨‹åºè¿è¡Œç»“æœæ˜¯ä»€ä¹ˆ
+// int main()
+// {
+//     int a[5] = {1, 2, 3, 4, 5};
+//     int *ptr = (int *)(&a + 1);
+//     printf("%d,%d\n", *(a + 1), *(ptr - 1)); // 2,5
+//     return 0;
+// }
 
-//³ÌĞòÔËĞĞ½á¹ûÊÇÊ²Ã´
-//struct Test
-//{
-//	int Num;
-//	char* pcName;
-//	short sDate;
-//	char arr[6];
-//	short sCh[2];
-//}*p;
-////×¢£ºTestÀàĞÍµÄ´óĞ¡Îª32×Ö½Ú
-//int main()
-//{
-//	p = (struct Test*)0x100000;
-//	printf("%p\n", p + 0x1);				//0x100020
-//	printf("%p\n", (unsigned int*)p + 0x1);	//0x100004
-//	printf("%p\n", (unsigned long)p + 0x1);	//0x100001
-//
-//	return 0;
-//}
+// ç¨‹åºè¿è¡Œç»“æœæ˜¯ä»€ä¹ˆ
+// æ³¨ï¼šTest ç±»å‹çš„å¤§å°ä¸º 32 å­—èŠ‚
+// struct Test
+// {
+//     int Num;
+//     char *pcName;
+//     short sDate;
+//     char arr[6];
+//     short sCh[2];
+// } *p;
+// int main()
+// {
+//     p = (struct Test *)0x100000;
+//     printf("%p\n", p + 0x1);                 // 0x100020
+//     printf("%p\n", (unsigned int *)p + 0x1); // 0x100004
+//     printf("%p\n", (unsigned long)p + 0x1);  // 0x100001
+//     return 0;
+// }
 
-//³ÌĞòÔËĞĞ½á¹ûÊÇÊ²Ã´
-//int main()
-//{
-//	int a[4] = { 1,2,3,4 };
-//	int* ptr1 = (int*)(&a + 1);
-//	int* ptr2 = (int*)((unsigned long)a + 1);
-//	printf("%#x,%#x\n", ptr1[-1], *ptr2);	//0x4, 0x2000000£¨Ğ¡¶Ë£©»ò0x100£¨´ó¶Ë£©
-//
-//	return 0;
-//}
+// ç¨‹åºè¿è¡Œç»“æœæ˜¯ä»€ä¹ˆ
+// int main()
+// {
+//     int a[4] = {1, 2, 3, 4};
+//     int *ptr1 = (int *)(&a + 1);
+//     int *ptr2 = (int *)((unsigned long)a + 1);
+//     printf("%#x,%#x\n", ptr1[-1], *ptr2);
+//     // 0x4, 0x20000000ï¼ˆå°ç«¯ï¼‰æˆ– 0x100ï¼ˆå¤§ç«¯ï¼‰
+//     return 0;
+// }
 
-//³ÌĞòÔËĞĞ½á¹ûÊÇÊ²Ã´
-//int main()
-//{
-//	int a[3][2] = { (0, 1), (2, 3), (4, 5) };
-//	int* p = a[0];
-//	p = a[0];
-//	printf("%d\n", p[0]);		//1
-//
-//	return 0;
-//}
+// ç¨‹åºè¿è¡Œç»“æœæ˜¯ä»€ä¹ˆ
+// int main()
+// {
+//     int a[3][2] = {(0, 1), (2, 3), (4, 5)};
+//     int *p = a[0];
+//     p = a[0];
+//     printf("%d\n", p[0]); // 1
+//     return 0;
+// }
 
-//³ÌĞòÔËĞĞ½á¹ûÊÇÊ²Ã´
-//int main()
-//{
-//	int a[5][5];
-//	int (*p)[4];
-//	p = a;
-//	printf("%p,%d\n", &p[4][2] - &a[4][2], &p[4][2] - &a[4][2]);	//FF FF FF FC, -4
-//
-//	return 0;
-//}
+// ç¨‹åºè¿è¡Œç»“æœæ˜¯ä»€ä¹ˆ
+// int main()
+// {
+//     int a[5][5];
+//     int(*p)[4];
+//     p = (int(*)[4])a;
+//     printf("%p,%d\n", &p[4][2] - &a[4][2], &p[4][2] - &a[4][2]);
+//     // FF FF FF FC, -4
+//     return 0;
+// }
 
-//³ÌĞòÔËĞĞ½á¹ûÊÇÊ²Ã´
-//int main()
-//{
-//	int aa[2][5] = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
-//	int* ptr1 = (int*)(&aa + 1);
-//	int* ptr2 = (int*)(*(aa + 1));
-//
-//	printf("%d,%d\n", *(ptr1 - 1), *(ptr2 - 1));	//10, 5
-//	return 0;
-//}
+// ç¨‹åºè¿è¡Œç»“æœæ˜¯ä»€ä¹ˆ
+// int main()
+// {
+//     int aa[2][5] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+//     int *ptr1 = (int *)(&aa + 1);
+//     int *ptr2 = (int *)(*(aa + 1));
+//     printf("%d,%d\n", *(ptr1 - 1), *(ptr2 - 1)); // 10, 5
+//     return 0;
+// }
 
+// ç¨‹åºè¿è¡Œç»“æœæ˜¯ä»€ä¹ˆ
+// int main()
+// {
+//     char *a[] = {"work", "at", "alibaba"};
+//     char **pa = a;
+//     pa++;
+//     printf("%s\n", *pa); // at
+//     return 0;
+// }
 
-//³ÌĞòÔËĞĞ½á¹ûÊÇÊ²Ã´
-//int main()
-//{
-//	char* a[] = { "work", "at", "alibaba" };
-//	char** pa = a;
-//
-//	pa++;
-//	printf("%s\n", *pa);	//at
-//	return 0;
-//}
-
-
-//³ÌĞòÔËĞĞ½á¹ûÊÇÊ²Ã´
-//int main()
-//{
-//	char* c[] = { "enter", "new", "point", "first" };
-//	char** cp[] = { c + 3, c + 2, c + 1, c };
-//	char*** cpp = cp;
-//
-//	printf("%s\n", **++cpp);			//point
-//	printf("%s\n", *-- * ++cpp + 3);	//er
-//	printf("%s\n", *cpp[-2] + 3);		//st
-//	printf("%s\n", cpp[-1][-1] + 1);	//ew
-//	return 0;
-//}
+// ç¨‹åºè¿è¡Œç»“æœæ˜¯ä»€ä¹ˆ
+// int main()
+// {
+//     char *c[] = {"enter", "new", "point", "first"};
+//     char **cp[] = {c + 3, c + 2, c + 1, c};
+//     char ***cpp = cp;
+//     printf("%s\n", **++cpp);         // point
+//     printf("%s\n", *--*++cpp + 3);   // er
+//     printf("%s\n", *cpp[-2] + 3);    // st
+//     printf("%s\n", cpp[-1][-1] + 1); // ew
+//     return 0;
+// }
