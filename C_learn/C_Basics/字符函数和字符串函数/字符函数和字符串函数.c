@@ -4,367 +4,374 @@
 #include <string.h>
 #include <assert.h>
 
+// C è¯­è¨€å¯¹å­—ç¬¦å’Œå­—ç¬¦ä¸²çš„å¤„ç†å¾ˆé¢‘ç¹ï¼Œä½†æ˜¯ C è¯­è¨€æœ¬èº«æ²¡æœ‰å­—ç¬¦ä¸²ç±»å‹
+// C è¯­è¨€çš„å­—ç¬¦ä¸²é€šå¸¸æ”¾åœ¨ å­—ç¬¦æ•°ç»„ æˆ– å­—ç¬¦ä¸²å¸¸é‡ ä¸­
+// å­—ç¬¦ä¸²å¸¸é‡ä¸èƒ½è¢«ä¿®æ”¹
 
-//CÓïÑÔ¶Ô×Ö·ûºÍ×Ö·û´®µÄ´¦ÀíºÜÆµ·±£¬µ«ÊÇCÓïÑÔ±¾ÉíÃ»ÓĞ×Ö·û´®ÀàĞÍ
-//CÓïÑÔµÄ×Ö·û´®Í¨³£·ÅÔÚ ×Ö·ûÊı×é »ò ×Ö·û´®³£Á¿ ÖĞ
-//×Ö·û´®³£Á¿ ²»ÄÜ±»ĞŞ¸Ä
+/*
+ * 1.strlen
+ * è¿”å›å­—ç¬¦ä¸²ä¸­'\0'å‰é¢å‡ºç°çš„å­—ç¬¦ä¸ªæ•°
+ * åŸç†ï¼šè®¡ç®—å­—ç¬¦çš„ä¸ªæ•°ï¼Œç›´åˆ°é‡åˆ°'\0'ï¼ˆä¸åŒ…æ‹¬'\0'ï¼‰
+ * å‡½æ•°å£°æ˜
+ * size_t strlen( const char *string );
+ */
 
-//1.strlen
-// ·µ»Ø×Ö·û´®ÖĞ'\0'Ç°Ãæ³öÏÖµÄ×Ö·û¸öÊı
-//Ô­Àí£º¼ÆËã×Ö·ûµÄ¸öÊı£¬Ö±µ½Óöµ½'\0'£¨²»°üÀ¨'\0'£©
-//º¯ÊıÉùÃ÷
-//size_t strlen( const char *string );
+// int main()
+// {
+//     if (strlen("abc") - strlen("abcdef") > 0)
+//         printf(">\n");
+//     else
+//         printf("<\n");
+//     return 0;
+// }
+// ä¸Šé¢ç¨‹åºè¿è¡Œç»“æœæ˜¯ >
+// size_t å…¶å®æ˜¯ unsigned long longï¼ˆæ˜“é”™ï¼‰
 
-//int main()
-//{
-//	if (strlen("abc") - strlen("abcdef") > 0)
-//		printf("hehe\n");
-//	else
-//		printf("haha\n");
+// æ‰‹æ“ strlenï¼ˆå·²è®²è¿‡ï¼Œä¸‰ç§æ–¹æ³•ï¼‰
+// è®¡æ•°å™¨
+// é€’å½’
+// æŒ‡é’ˆ - æŒ‡é’ˆ
 //
-//	return 0;
-//}
-//ÉÏÃæ³ÌĞòÔËĞĞ½á¹ûÊÇhehe
+// ä¾‹ï¼ˆç”¨è®¡æ•°å™¨å®ç°ï¼‰
+// int my_strlen(const char *str)
+// {
+//     assert(str);
+//     int count = 0; // è®¡æ•°å™¨
+//     while (*str++)
+//         ++count;
+//     return count;
+// }
+// è¿”å›ç±»å‹ç”¨ int æˆ– size_t éƒ½å¯ä»¥ï¼Œå„æœ‰åƒç§‹
 
-//size_tÆäÊµÊÇunsigned int£¨Ò×´í£©
+/*
+ * 2.strcpy
+ * å°†æºå­—ç¬¦ä¸²æ‹·è´åˆ°ç›®çš„ç©ºé—´ï¼ˆåŒ…æ‹¬ '\0'ï¼‰
+ *
+ * å‡½æ•°å£°æ˜
+ * char *strcpy( char *strDestination, const char *strSource );
+ *
+ * æ³¨æ„äº‹é¡¹ï¼š
+ * ç›®æ ‡ç©ºé—´å¿…é¡»è¶³å¤Ÿå¤§ï¼›
+ * å­—ç¬¦ä¸²å¸¸é‡ä¸èƒ½ä½œç›®çš„ç©ºé—´
+ */
 
-//ÊÖ´êstrlen£¨ÒÑ½²¹ı£¬ÈıÖÖ·½·¨£©
-//¼ÆÊıÆ÷
-//µİ¹é
-//Ö¸Õë - Ö¸Õë
+// æ‰‹æ“ strcpyï¼ˆè®²è¿‡ï¼Œ5 åˆ†çš„ä»£ç å¦‚ä½•æ”¹æˆ 10 åˆ†ï¼‰
+// char *my_strcpy(char *dest, const char *sour)
+// {
+//     assert(dest);
+//     assert(sour);
+//     char *ret = dest;
 //
-//Àı£¨ÓÃ¼ÆÊıÆ÷ÊµÏÖ£©
-//int my_strlen(const char* str)	//·µ»ØÀàĞÍÓÃint»òsize_t¶¼¿ÉÒÔ£¬¸÷ÓĞÇ§Çï
-//{
-//	int count = 0;	//¼ÆÊıÆ÷
-//	assert(str);
-//	while (*str)
-//	{
-//		count++;
-//		str++;
-//	}
-// return count;
-//}
+//     // æ‹·è´ sour æŒ‡å‘çš„å­—ç¬¦ä¸²åˆ° dest æŒ‡å‘çš„ç©ºé—´ï¼ŒåŒ…æ‹¬'\0'
+//     while (*dest++ = *sour++)
+//         ;
+//
+//     // è¿”å›ç›®çš„ç©ºé—´çš„èµ·å§‹åœ°å€
+//     return ret;
+// }
 
+/*
+ * 3.strcat
+ * åœ¨å­—ç¬¦ä¸²åé¢è¿½åŠ å­—ç¬¦ä¸²
+ * åŸç†ï¼šä»å·¦å‘å³æ‰¾åˆ° '\0' å¼€å§‹è¿½åŠ 
+ *
+ * å‡½æ•°å£°æ˜
+ * char *strcat( char *strDestination, const char *strSource );
+ *
+ * æ³¨æ„äº‹é¡¹ï¼š
+ * ä¸èƒ½è‡ªå·±è¿½åŠ è‡ªå·±ï¼›
+ * å…¶ä½™åŒ strcpy
+ */
 
+// int main()
+// {
+//     char arr1[18] = "hello\0xxxxxxxxx";
+//     char arr2[] = "world";
+//     strcat(arr1, arr2);
+//     // è°ƒè¯•çœ‹ç»“æœ
+//     return 0;
+// }
 
-//2.strcpy
-//½«Ô´×Ö·û´®¿½±´µ½Ä¿µÄ¿Õ¼ä£¨°üÀ¨'\0'£©
+// æ‰‹æ“ strcat
+// char *my_strcat(char *dest, const char *sour)
+// {
+//     assert(dest);
+//     assert(sour);
+//     char *ret = dest;
 //
-// º¯ÊıÉùÃ÷
-// char *strcpy( char *strDestination, const char *strSource );
+//     // 1.æ‰¾åˆ°ç›®çš„å­—ç¬¦ä¸²çš„'\0'
+//     while (*dest)
+//         ++dest;
 //
-// ×¢ÒâÊÂÏî£ºÄ¿±ê¿Õ¼ä±ØĞë×ã¹»´ó£»×Ö·û´®³£Á¿²»ÄÜ×÷Ä¿µÄ¿Õ¼ä
-//
+//     // 2.è¿½åŠ æºå­—ç¬¦ä¸²ï¼ˆåŒ…æ‹¬'\0'ï¼‰ï¼ˆåŒ strcpyï¼‰
+//     while (*dest++ = *sour++)
+//         ;
+//     return ret;
+// }
 
-//ÊÖ´êstrcpy£¨ÒÑ½²¹ı£¬5·ÖµÄ´úÂëÈçºÎ¸Ä³É10·Ö£©
-//char* my_strcpy(char* dest, const char* sour)
-//{
-//	assert(dest);
-//	assert(sour);
-//	char* ret = dest;
-// 
-//	//¿½±´sourÖ¸ÏòµÄ×Ö·û´®µ½destÖ¸ÏòµÄ¿Õ¼ä£¬°üÀ¨'\0'
-//	while (*dest++ = *sour++) { ; }
-// 
-//	//·µ»ØÄ¿µÄ¿Õ¼äµÄÆğÊ¼µØÖ·
-//	return ret;
-//}
+/*
+ * 4.strcmp
+ * æ¯”è¾ƒä¸¤ä¸ªå­—ç¬¦ä¸²çš„å¤§å°
+ * ï¼ˆæ¯”çš„æ˜¯ ASCII å€¼ï¼Œä¸æ˜¯é•¿åº¦ï¼‰
+ * åŸç†ï¼š
+ * å…ˆæ¯”ç¬¬ä¸€ä¸ªå­—ç¬¦ï¼Œå¦‚æœç›¸ç­‰å°±æ¥ç€æ¯”ä¸‹ä¸€ä¸ªï¼Œç›´åˆ°æ¯”å‡ºæ¥æˆ–é‡åˆ° '\0'ã€‚
+ *
+ * å‡½æ•°å£°æ˜
+ * int strcmp( const char *string1, const char *string2 );
+ *
+ * æ ‡å‡†è§„å®šï¼š
+ * å·¦ > å³è¿”å› >0 çš„æ•°ï¼Œå·¦ < å³è¿”å› <0 çš„æ•°ï¼Œç›¸ç­‰è¿”å› 0ã€‚
+ */
 
+// æ‰‹æ“ strcmp
+// int my_strcmp(const char *str1, const char *str2)
+// {
+//     assert(str1);
+//     assert(str2);
+//
+//     // å¯ä»¥ä½†ä¸å¤Ÿå¥½ï¼ˆå…¶å®æ˜¯æˆ‘å†™çš„ï¼Œå‘œå‘œï¼‰
+//     while (*str1 && *str2)
+//     {
+//         if (*str1 > *str2)
+//             return 1;
+//         if (*str1 < *str2)
+//             return -1;
+//         str1++;
+//         str2++;
+//     }
+//     if (*str1 > *str2)
+//         return 1;
+//     if (*str1 < *str2)
+//         return -1;
+//     return 0;
+//
+//     // å®Œç¾å†™æ³•
+//     while (*str1 == *str2)
+//     {
+//         if (*str1 == '\0')
+//             return 0;
+//         str1++;
+//         str2++;
+//     }
+//     if (*str1 > *str2)
+//         return 1;
+//     else
+//         return -1;
+//
+//     // ä¹Ÿå¯ä»¥è¿™æ ·å†™
+//     // return (*str1 - *str2); //æ›´è´´åˆ C æ ‡å‡†
+// }
 
+/*
+ * strcpy,strcat,strcmp åªä»¥ '\0' ä¸ºç»“æŸæ ‡å¿—ï¼Œç›¸å¯¹ä¸å®‰å…¨ã€‚
+ * ï¼ˆå¯èƒ½ä¼šè¶Šç•Œï¼‰
+ * å› æ­¤å¢åŠ æœ‰é•¿åº¦çš„ç‰ˆæœ¬ï¼šstrncpy,strncat,strncmp
+ */
 
-//3.strcat
-// ÔÚ×Ö·û´®ºóÃæ×·¼Ó×Ö·û´®
-// Ô­Àí£º´Ó×óÏòÓÒÕÒµ½'\0'¿ªÊ¼×·¼Ó
-//
-//int main()
-//{
-//	char arr1[30] = "hello\0xxxxxxxxx";
-//	char arr2[] = "world";
-//	strcat(arr1, arr2);
-// 
-//	//µ÷ÊÔ¿´½á¹û
-//	return 0;
-//}
+/*
+ * 5.strncpy
+ *
+ * å‡½æ•°å£°æ˜
+ * char *strncpy( char *strDest, const char *strSource, size_t count );
+ * ä¸ strcpy çš„å£°æ˜ç›¸æ¯”å¤šäº†ä¸€ä¸ª countï¼Œ
+ * è¡¨ç¤ºåœ¨ strcpy çš„åŸºç¡€ä¸Šï¼Œæ‹·è´æºå­—ç¬¦ä¸²çš„å‰ count ä¸ªå­—èŠ‚ï¼ˆå³å­—ç¬¦ï¼‰
+ *
+ * æ³¨æ„äº‹é¡¹ï¼š
+ * æºå­—ç¬¦ä¸²é•¿åº¦å°äº count æ—¶ï¼Œç”¨ '\0' æ‹·è´ï¼›
+ * å…¶ä½™åŒ strcpy
+ */
 
-// 
-// º¯ÊıÉùÃ÷
-// char *strcat( char *strDestination, const char *strSource );
-// 
-// ×¢ÒâÊÂÏî£º²»ÄÜ×Ô¼º×·¼Ó×Ô¼º£»ÆäÓàÍ¬strcpy
-//
+// int main()
+// {
+//     char arr1[10] = "xxxxxxxx";
+//     char arr2[] = "abcd";
+//     strncpy(arr1, arr2, 3);
+//     strncpy(arr1, arr2, 6);
+//     // è°ƒè¯•çœ‹ç»“æœ
+//     return 0;
+// }
 
-//ÊÖ´êstrcat
-//char* my_strcat(char* dest, const char* sour)
-//{
-//	assert(dest);
-//	assert(sour);
-//	char* ret = dest;
+// æ‰‹æ“ strncpy
+// char *my_strncpy(char *dest, const char *sour, unsigned int count)
+// {
+//     assert(dest);
+//     assert(sour);
+//     char *ret = dest;
 //
-//	//1.ÕÒµ½Ä¿µÄ×Ö·û´®µÄ'\0'
-//	while (*dest) dest++;
+//     // æˆ‘å†™çš„
+//     int i = 0;
+//     for (i = 0; i < count; i++)
+//         if (*dest++ = *sour)
+//             sour++;
 //
-//	//2.×·¼ÓÔ´×Ö·û´®£¨°üÀ¨'\0'£©£¨²»¾ÍÊÇstrcpyÂğ£©
-//	while (*dest++ = *sour++) { ; }
-//
-//	return ret;
-//}
+//     // æ ‡å‡†ç­”æ¡ˆ
+//     while (count && (*dest++ = *sour++) != '\0') /* copy string */
+//         count--;
+//     if (count) /* pad out with zeroes */
+//         while (--count)
+//             *dest++ = '\0';
+//     return ret;
+// }
 
+/*
+ * 6.strncat
+ *
+ * å‡½æ•°å£°æ˜
+ * char *strncat( char *strDest, const char *strSource, size_t count );
+ * è¡¨ç¤ºåœ¨ strcat çš„åŸºç¡€ä¸Šï¼Œè¿½åŠ æºå­—ç¬¦ä¸²çš„å‰ count ä¸ªå­—èŠ‚
+ *
+ * æ³¨æ„äº‹é¡¹ï¼š
+ * æºå­—ç¬¦ä¸²çš„é•¿åº¦å¤§äº countï¼Œè¿½åŠ å®Œä¼šå†è¡¥åŠ ä¸€ä¸ª '\0'ï¼›
+ * é•¿åº¦å°äº countï¼Œè¿½åŠ åˆ° '\0' å°±åœæ­¢
+ * ï¼ˆè¿½åŠ å®Œåï¼Œæœ«å°¾æ€»æœ‰ä¸€ä¸ª '\0'ï¼‰
+ */
 
+// int main()
+// {
+//     char arr1[10] = "x\0xxxxxxx";
+//     char arr2[] = "abcd";
+//     strncat(arr1, arr2, 3);
+//     strncat(arr1, arr2, 6);
+//     // è°ƒè¯•çœ‹ç»“æœ
+//     return 0;
+// }
 
-//4.strcmp
-// ±È½ÏÁ½¸ö×Ö·û´®µÄ´óĞ¡£¨±ÈµÄÊÇASCIIÖµ£¬²»ÊÇ³¤¶È£©
-// Ô­Àí£ºÏÈ±ÈµÚÒ»¸ö×Ö·û£¬Á©×Ö·û´®µÄµÚÒ»¸ö×Ö·ûÏàµÈÔÙ½Ó×Å±ÈÏÂÒ»¸ö×Ö·û£¬ÒÔ´ËÀàÍÆ
-// 
-// º¯ÊıÉùÃ÷
-// int strcmp( const char *string1, const char *string2 );
-// 
-// ±ê×¼¹æ¶¨£º×ó>ÓÒ·µ»Ø>0µÄÊı£¬ÏàµÈ·µ»Ø0£¬×ó<ÓÒ·µ»Ø<0µÄÊı
+// æ‰‹æ“ strncat
+// char *my_strncat(char *dest, const char *sour, unsigned int count)
+// {
+//     assert(dest);
+//     assert(sour);
+//     char *ret = dest;
 //
+//     // æˆ‘å†™çš„
+//     // 1.æ‰¾åˆ°ç›®çš„å­—ç¬¦ä¸²çš„ '\0'
+//     // 2.è¿½åŠ  sour å­—ç¬¦ä¸²ç›´åˆ°é‡åˆ° '\0' æˆ–è¾¾åˆ° count ä¸ªå­—ç¬¦
+//     // 3.å¦‚æœåˆ° count ä¸ªå­—ç¬¦è¿˜æ²¡æœ‰é‡åˆ° '\0'ï¼Œå°±è¡¥è¿½ä¸€ä¸ª '\0'
+//     while (*dest)
+//         dest++;
+//
+//     while (count-- && (*dest++ = *sour++))
+//         ;
+//
+//     if (count == -1)
+//         *dest = '\0';
+//
+//     // æ ‡å‡†ç­”æ¡ˆ
+//     while (*dest++)
+//         ;
+//     dest--;
+//
+//     while (count--)
+//         if ((*dest++ = *sour++) == 0)
+//             return (ret);
+//
+//     *dest = '\0';
+//     return ret;
+// }
 
-//ÊÖ´êstrcmp
-//int my_strcmp(const char* str1, const char* str2)
-//{
-//	assert(str1);
-//	assert(str2);
-//
-//	//¿ÉÒÔµ«²»¹»ºÃµÄÊ¾·¶£¨ÆäÊµÊÇÎÒĞ´µÄ£¬ÎØÎØ£©
-//	//while (*str1 && *str2)
-//	//{
-//	//	if (*str1 > *str2)
-//	//		return 1;
-//	//	else if (*str1 < *str2)
-//	//		return -1;
-//	//	str1++;
-//	//	str2++;
-//	//}
-//	//if (*str1 > *str2)
-//	//	return 1;
-//	//else if (*str1 < *str2)
-//	//	return -1;
-//	//return 0;
-//
-//	//ÍêÃÀĞ´·¨
-//	while (*str1 == *str2)
-//	{
-//		if (*str1 == '\0') return 0;
-//		str1++;
-//		str2++;
-//	}
-//	if (*str1 > *str2)
-//		return 1;
-//	else
-//		return -1;
-//
-//	//Ò²¿ÉÒÔÕâÑùĞ´
-//	//return (*str1 - *str2);	//¸üÌùºÏ±ê×¼µÄ¹æ¶¨
-//}
+/*
+ * 7.strncmp
+ *
+ * å‡½æ•°å£°æ˜
+ * int strncmp( const char *string1, const char *string2, size_t count );
+ * è¡¨ç¤ºåœ¨ strcmp çš„åŸºç¡€ä¸Šï¼Œæ¯”è¾ƒä¸¤ä¸ªå­—ç¬¦ä¸²çš„å‰ count ä¸ªå­—èŠ‚
+ *
+ * æ ‡å‡†è§„å®šåŒ strcmp
+ */
 
+// æ‰‹æ“ strncmp
+// int my_strncmp(const char *str1, const char *str2, unsigned int count)
+// {
+//     assert(str1);
+//     assert(str2);
+//
+//     // æ‰¾åˆ°äº†7ç§æƒ…å†µ
+//     // æˆ‘å†™çš„
+//     if (!count)
+//         return 0; // å°å¿ƒæç«¯æƒ…å†µï¼
+//
+//     while (*str1 == *str2)
+//     {
+//         if (*str1 == '\0' || --count == 0)
+//             return 0;
+//         str1++;
+//         str2++;
+//     }
+//     return (*str1 - *str2);
+//
+//     // æ ‡å‡†ç­”æ¡ˆ
+//     size_t x = 0;
+//     if (!count) // å¤„ç†æç«¯æƒ…å†µ
+//         return 0;
+//
+//     // ä»¥å››ä¸ªå­—èŠ‚ä¸ºå•ä½å¤„ç†ï¼ˆè€ƒè™‘äº†å¯ç§»æ¤æ€§ï¼Ÿï¼‰
+//     if (count >= 4)
+//     {
+//         /* unroll by four */
+//         for (; x < count - 4; x += 4)
+//         {
+//             str1 += 4;
+//             str2 += 4;
+//
+//             if (*(str1 - 4) == 0 || *(str1 - 4) != *(str2 - 4))
+//             {
+//                 return (*(unsigned char *)(str1 - 4) - *(unsigned char *)(str2 - 4));
+//             }
+//             if (*(str1 - 3) == 0 || *(str1 - 3) != *(str2 - 3))
+//             {
+//                 return (*(unsigned char *)(str1 - 3) - *(unsigned char *)(str2 - 3));
+//             }
+//             if (*(str1 - 2) == 0 || *(str1 - 2) != *(str2 - 2))
+//             {
+//                 return (*(unsigned char *)(str1 - 2) - *(unsigned char *)(str2 - 2));
+//             }
+//             if (*(str1 - 1) == 0 || *(str1 - 1) != *(str2 - 1))
+//             {
+//                 return (*(unsigned char *)(str1 - 1) - *(unsigned char *)(str2 - 1));
+//             }
+//         }
+//     }
+//     /* residual loop */
+//     for (; x < count; x++)
+//     {
+//         if (*str1 == 0 || *str1 != *str2)
+//         {
+//             return (*(unsigned char *)str1 - *(unsigned char *)str2);
+//         }
+//         str1 += 1;
+//         str2 += 1;
+//     }
+//     return 0;
+//
+//     // æŠŠæ ‡å‡†ç­”æ¡ˆç®€åŒ–äº†ä¸€ä¸‹
+//     if (!count)
+//         return 0; // å¤„ç†æç«¯æƒ…å†µ
+//
+//     while (count--)
+//     {
+//         if (*str1 == 0 || *str1 != *str2)
+//         {
+//             return (*(unsigned char *)str1 - *(unsigned char *)str2);
+//         }
+//         str1++;
+//         str2++;
+//     }
+//     return 0;
+// }
 
-
+// ç®€åŒ–ç‰ˆæ ‡å‡†ç­”æ¡ˆå’Œæˆ‘å†™çš„ï¼Œæ˜¯ä¸¤ç§ä¸åŒçš„å®ç°é€»è¾‘ï¼ˆç”»æµç¨‹å›¾æ–¹ä¾¿è§‚å¯Ÿï¼‰
+// æˆ‘çš„æ˜¯ï¼šæ¯”è¾ƒçš„å­—ç¬¦ç›¸ç­‰åˆ™è¿›å…¥å¾ªç¯æ¥ç€æ¯”è¾ƒï¼Œå¦åˆ™é€€å‡ºå¾ªç¯è¿”å›å·®å€¼ã€‚
+//         è¿›å…¥å¾ªç¯åï¼Œæ£€æŸ¥ count å’Œåˆšæ‰æ¯”è¾ƒçš„å­—ç¬¦ï¼Œ
+//         å¦‚æœ count == 0 æˆ–åˆšæ‰æ¯”è¾ƒçš„å­—ç¬¦æ˜¯ '\0'ï¼Œ
+//         å°±è¡¨æ˜æ¯”è¾ƒç»“æŸï¼Œè¿”å› 0ã€‚
+//         å¦åˆ™æ¯”è¾ƒä¸‹ä¸€å¯¹å­—ç¬¦
+// ç®€åŒ–ç‰ˆï¼šåªè¦æ¯”è¾ƒæ¬¡æ•°æ²¡åˆ° countï¼Œå°±è¿›å…¥å¾ªç¯æ¥ç€æ¯”ï¼›
+//         æ¯”è¾ƒæ¬¡æ•°åˆ°äº† countï¼Œè¿”å› 0ã€‚
+//         è¿›å…¥å¾ªç¯åï¼Œæ£€æŸ¥æ¯”è¾ƒçš„å­—ç¬¦æ˜¯å¦ç›¸ç­‰ä¸”ä¸ä¸º '\0'ï¼Œ
+//         ç›¸ç­‰ä¸”ä¸ä¸º '\0' å°±æ¥ç€æ¯”ï¼Œå¦åˆ™è¿”å›å·®å€¼
+//         ï¼ˆæ³¨æ„åˆ° *str1 == 0 || *str1 != *str2 çš„è¡¥é›†ä¸º
+//         ï¼ˆ*str1 != 0 && *str1 == *str2
 //
-// strcpy,strcat,strcmp²»ÊÜ³¤¶ÈÏŞÖÆ£¬Ö»ÒÔ'\0'Îª½áÊø±êÖ¾£¬Ïà¶Ô²»°²È«
-// Òò´ËÔö¼Ó³¤¶ÈÊÜÏŞÖÆµÄ°æ±¾
-// strncpy,strncat,strncmp
-// 
-
-
-
-//5.strncpy
-// 
-// º¯ÊıÉùÃ÷
-// char *strncpy( char *strDest, const char *strSource, size_t count );
-// ÓëstrcpyÏà±È¶àÁËÒ»¸öcount£¬±íÊ¾ÔÚstrcpyµÄ»ù´¡ÉÏÖ»¿½±´Ô´×Ö·û´®µÄÇ°count¸ö×Ö½Ú£¨»òÕßËµ×Ö·û£©
-// 
-// ×¢ÒâÊÂÏî£ºÔ´×Ö·û´®³¤¶ÈĞ¡ÓÚcountÊ±£¬Ä¿µÄ×Ö·û´®¶à³öµÄ´ı¿½±´²¿·ÖÓÃ'\0'Ìæ»»£»ÆäÓàÍ¬strcpy
-//
-//int main()
-//{
-//	char arr1[10] = "xxxxxxxx";
-//	char arr2[] = "abcd";
-//	strncpy(arr1, arr2, 3);
-//	strncpy(arr1, arr2, 6);
-//	
-//	//µ÷ÊÔ¿´½á¹û
-//	return 0;
-//}
-
-//ÊÖ´êstrncpy
-//char* my_strncpy(char* dest, const char* sour, unsigned int count)
-//{
-//	assert(dest);
-//	assert(sour);
-//	char* ret = dest;
-//
-//	//ÎÒĞ´µÄ
-//	int i = 0;
-//	for (i = 0; i < count; i++)
-//		if (*dest++ = *sour)
-//			sour++;
-//	
-//	//±ê×¼´ğ°¸
-//	//while (count && (*dest++ = *sour++) != '\0')    /* copy string */
-//	//	count--;
-//	//if (count)                              /* pad out with zeroes */
-//	//	while (--count)
-//	//		*dest++ = '\0';
-//
-//	return ret;
-//}
-
-
-
-//6.strncat
-// 
-// º¯ÊıÉùÃ÷
-// char *strncat( char *strDest, const char *strSource, size_t count );
-// ±íÊ¾ÔÚstrcatµÄ»ù´¡ÉÏÖ»×·¼ÓÔ´×Ö·û´®µÄÇ°count¸ö×Ö½Ú
-// 
-// ×¢ÒâÊÂÏî£ºÔ´×Ö·û´®µÄ³¤¶È´óÓÚcount£¬×·¼ÓÍê»áÔÙ²¹¼ÓÒ»¸ö'\0'£»³¤¶ÈĞ¡ÓÚcount£¬×·¼Óµ½'\0'¾ÍÍ£Ö¹
-//           ¼´×·¼Ó²¿·ÖµÄºóÃæ×ÜÓĞÒ»¸ö'\0'
-//
-//int main()
-//{
-//	char arr1[10] = "x\0xxxxxxx";
-//	char arr2[] = "abcd";
-//	strncat(arr1, arr2, 3);
-//	strncat(arr1, arr2, 6);
-//
-//	//µ÷ÊÔ¿´½á¹û
-//	return 0;
-//}
-
-//ÊÖ´êstrncat
-//char* my_strncat(char* dest, const char* sour, unsigned int count)
-//{
-//	assert(dest);
-//	assert(sour);
-//	char* ret = dest;
-//
-//	//ÎÒĞ´µÄ
-//	while (*dest)	//ÕÒµ½Ä¿µÄ×Ö·û´®µÄ'\0'
-//		dest++;
-//	 
-//	while (*dest++ = *sour++ && --count);	//×·¼Ósour×Ö·û´®Ö±µ½Óöµ½'\0'»ò´ïµ½count¸ö×Ö·û
-//	if (count == 0)
-//		*dest = '\0';					//Èç¹ûµ½count¸ö×Ö·û»¹Ã»ÓĞÓöµ½'\0'£¬¾Í²¹×·Ò»¸ö'\0'
-//	return ret;
-//
-//	//±ê×¼´ğ°¸
-//	//while (*dest++)
-//	//	;
-//	//dest--;
-//
-//	//while (count--)
-//	//	if ((*dest++ = *sour++) == 0)
-//	//		return(ret);
-//
-//	//*front = '\0';
-//	//return ret;
-//}
-
-
-
-//7.strncmp
-// 
-// º¯ÊıÉùÃ÷
-// int strncmp( const char *string1, const char *string2, size_t count );
-// ±íÊ¾ÔÚstrcmpµÄ»ù´¡ÉÏ£¬Ö»±È½ÏÁ½¸ö×Ö·û´®µÄÇ°count¸ö×Ö½Ú
-// 
-// ±ê×¼¹æ¶¨Í¬strcmp
-//
-
-//ÊÖ´êstrncmp
-//int my_strncmp(const char* str1, const char* str2, unsigned int count)
-//{
-//	assert(str1);
-//	assert(str2);
-//
-//	//ÕÒµ½ÁË7ÖÖÇé¿ö
-//	//ÎÒĞ´µÄ
-//	//if (!count) return 0;		//Ğ¡ĞÄ¼«¶ËÇé¿ö£¡
-//
-//	//while (*str1 == *str2)
-//	//{
-//	//	if (*str1 == '\0' || --count == 0)
-//	//		return 0;
-//	//	str1++;
-//	//	str2++;
-//	//}
-//	//return (*str1 - *str2);
-//
-//	//±ê×¼´ğ°¸
-//    //size_t x = 0;
-//    //if (!count)             //´¦Àí¼«¶ËÇé¿ö
-//    //    return 0;
-//
-//    ////ÒÔËÄ¸ö×Ö½ÚÎªµ¥Î»´¦Àí
-//    //if (count >= 4)
-//    //{
-//    //    /* unroll by four */
-//    //    for (; x < count - 4; x += 4)
-//    //    {
-//    //        str1 += 4;
-//    //        str2 += 4;
-//
-//    //        if (*(str1 - 4) == 0 || *(str1 - 4) != *(str2 - 4))
-//    //        {
-//    //            return(*(unsigned char*)(str1 - 4) - *(unsigned char*)(str2 - 4));
-//    //        }
-//
-//    //        if (*(str1 - 3) == 0 || *(str1 - 3) != *(str2 - 3))
-//    //        {
-//    //            return(*(unsigned char*)(str1 - 3) - *(unsigned char*)(str2 - 3));
-//    //        }
-//
-//    //        if (*(str1 - 2) == 0 || *(str1 - 2) != *(str2 - 2))
-//    //        {
-//    //            return(*(unsigned char*)(str1 - 2) - *(unsigned char*)(str2 - 2));
-//    //        }
-//
-//    //        if (*(str1 - 1) == 0 || *(str1 - 1) != *(str2 - 1))
-//    //        {
-//    //            return(*(unsigned char*)(str1 - 1) - *(unsigned char*)(str2 - 1));
-//    //        }
-//    //    }
-//    //}
-//    ///* residual loop */
-//    //for (; x < count; x++)
-//    //{
-//    //    if (*str1 == 0 || *str1 != *str2)
-//    //    {
-//    //        return(*(unsigned char*)str1 - *(unsigned char*)str2);
-//    //    }
-//    //    str1 += 1;
-//    //    str2 += 1;
-//    //}
-//    //return 0;
-//
-//    //°Ñ±ê×¼´ğ°¸¼ò»¯ÁËÒ»ÏÂ
-//    if (!count) return 0;       //´¦Àí¼«¶ËÇé¿ö
-//
-//    while (count--)
-//    {
-//        if (*str1 == 0 || *str1 != *str2)
-//        {
-//            return (*(unsigned char*)str1 - *(unsigned char*)str2);
-//        }
-//        str1++;
-//        str2++;
-//    }
-//    return 0;
-//    //¼ò»¯°æµÄ±ê×¼´ğ°¸ºÍÎÒĞ´µÄÊÇÁ½ÖÖ²»Í¬µÄÊµÏÖÂß¼­£¨»­Á÷³ÌÍ¼·½±ã¹Û²ì£©
-//    //ÎÒµÄÊÇ£º±È½ÏµÄ×Ö·ûÏàµÈÔò½øÈëÑ­»·½Ó×Å±È½Ï£¬·ñÔòÍË³öÑ­»··µ»Ø²îÖµ¡£
-//    //        ½øÈëÑ­»·ºó£¬¼ì²écountºÍ¸Õ²Å±È½ÏµÄ×Ö·û£¬
-//    //        Ö»Òªcount==0»ò¸Õ²Å±È½ÏµÄ×Ö·ûÒÑ¾­ÊÇ'\0'ÁË£¬¾Í±íÃ÷±È½Ï½áÊø£¬·µ»Ø0¡£
-//    //        ·ñÔò±È½ÏÏÂÒ»¶Ô×Ö·û
-//    //¼ò»¯°æ£ºÖ»Òª±È½Ï´ÎÊıÃ»µ½count£¬¾Í½øÈëÑ­»·½Ó×Å±È£¬·ñÔò·µ»Ø0¡£
-//    //        ½øÈëÑ­»·ºó£¬¼ì²é±È½ÏµÄ×Ö·ûÊÇ·ñÏàµÈÇÒ²»Îª'\0'£¬
-//    //        ÏàµÈÇÒ²»Îª'\0'¾Í½Ó×Å±È£¬·ñÔò·µ»Ø²îÖµ
-//    //        £¨×¢Òâ¡®*str1 == 0 || *str1 != *str2¡¯µÄ²¹¼¯Îª¡®*str1 != 0 && *str1 == *str2¡¯£©
-//    // 
-//    // Á½ÖÖÂß¼­¾ùÄÜÂú×ãÕÒµ½µÄ7ÖÖÇé¿ö
-//    // µ«ÊµÏÖÔ­Àí²»Í¬£¬Óöµ½ĞÂµÄÇé¿öÊ±µÃµ½µÄ½á¹û¾Í¿ÉÄÜ²»Í¬
-//    // Ã»ÓĞÊëÓÅÊëÁÓ£¬Ö»¿´ÄÄ¸öÄÜÊÊÓ¦ĞÂÇé¿ö
-//    //
-//}
+// ä¸¤ç§é€»è¾‘å‡èƒ½æ»¡è¶³æ‰¾åˆ°çš„ 7 ç§æƒ…å†µã€‚
+// ä½†å®ç°åŸç†ä¸åŒï¼Œé‡åˆ°æ–°çš„æƒ…å†µæ—¶å¾—åˆ°çš„ç»“æœå°±å¯èƒ½ä¸åŒã€‚
+// æ²¡æœ‰å­°ä¼˜å­°åŠ£ï¼Œåªçœ‹å“ªä¸ªèƒ½é€‚åº”æ–°æƒ…å†µã€‚
