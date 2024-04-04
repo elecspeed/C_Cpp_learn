@@ -2,242 +2,253 @@
 
 #include <stdio.h>
 #include <string.h>
-#include <assert.h>
 
-//8.strstr
-// ÔÚÒ»¸ö×Ö·û´®ÖĞ²éÕÒ×Ó×Ö·û´®£¬ÕÒµ½ÁË·µ»Ø×Ó×Ö·û´®µÚÒ»´Î³öÏÖµÄµØÖ·£¬Ã»ÕÒµ½·µ»ØNULL
-//
-//int main()
-//{
-//	char arr1[] = "abcdddefabcdef";
-//	char arr2[] = "def";
-//	char* ret = strstr(arr1, arr2);
-//	if (ret == NULL)
-//		printf("Ã»ÕÒµ½");
-//	else
-//		printf("%s\n", ret);
-//	return 0;
-//}
+/*
+ * 8.strstr
+ * åœ¨ä¸€ä¸ªå­—ç¬¦ä¸²ä¸­æŸ¥æ‰¾å­ä¸²ï¼Œæ‰¾åˆ°äº†è¿”å›å­ä¸²ç¬¬ä¸€æ¬¡å‡ºç°çš„åœ°å€ï¼Œæ²¡æ‰¾åˆ°è¿”å› NULL
+ *
+ * å£°æ˜
+ * char *strstr(const char *string, const char *strCharSet);
+ */
 
-// 
-// ÉùÃ÷
-// char *strstr( const char *string, const char *strCharSet );
-// 
+// int main()
+// {
+//     char arr[] = "abbbcd\0abbbcd";
+//     const char *str = "bcd";
+//     char *ret = strstr(arr, str);
+//     if (ret == NULL)
+//         printf("æ²¡æ‰¾åˆ°");
+//     else
+//         printf("%s\n", ret);
+//     return 0;
+// }
 
-//ÊÖ´êstrstr
-//char* my_strstr(const char* str1, const char* str2)
-//{
-//	assert(str1);
-//	assert(str2);
-//	if (*str2 == '\0') return (char*)str1;
+// æ‰‹æ“ strstr
+// #include <assert.h>
+// char *my_strstr(const char *str1, const char *str2)
+// {
+//     assert(str1);
+//     assert(str2);
+//     if (*str2 == '\0')
+//         return (char *)str1;
 //
-//	//·¨Ò»£ºÓÃÈı¸öÖ¸Õë±äÁ¿£¬Á½¸öÍùºóÌ½²â£¬Ò»¸öÓÃÀ´±ê¼Ç£¨¾ÍÊÇÕÕ×Å±ê×¼´ğ°¸À´Ğ´µÄ£¬ÎÒĞ´µÄÌ«lowÁË£©
-//	//char* p1 = NULL;
-//	//char* p2 = NULL;			//p1ºÍp2ÁÙÊ±Ö¸Õë
-//	//char* curr = (char*)str1;			//µ±Ç°Ö¸Õë£¬±ê¼Çµ±Ç°×ßµ½ÄÄÀï
+//     // æ³•ä¸€ï¼šåŒæŒ‡é’ˆ
+//     // ç”¨ä¸‰ä¸ªæŒ‡é’ˆå˜é‡ï¼Œä¸¤ä¸ªå¾€åæ¢æµ‹ï¼Œä¸€ä¸ªç”¨æ¥æ ‡è®°
+//     char *p1 = NULL;
+//     char *p2 = NULL;           // p1 å’Œ p2 ä¸ºæ¢æµ‹æŒ‡é’ˆ
+//     char *curr = (char *)str1; // å½“å‰æŒ‡é’ˆï¼Œæ ‡è®°å½“å‰èµ°åˆ°å“ªé‡Œ
 //
-//	//while (*curr)				//curr»áÒ»Ö±Íùºó×ßÖ±µ½'\0'
-//	//{
-//	//	//Ğ£×¼
-//	//	p1 = curr;
-//	//	p2 = (char*)str2;
+//     while (*curr) // curr ä¼šä¸€ç›´å¾€åèµ°ç›´åˆ° '\0'
+//     {
+//         // æ ¡å‡†
+//         p1 = curr;
+//         p2 = (char *)str2;
 //
-//	//	//ÓÃÁÙÊ±Ö¸ÕëÍùºóÌ½²â
-//	//	while (*p1 && *p2 && *p1 == *p2)
-//	//	{
-//	//		p1++;
-//	//		p2++;
-//	//	}
-//	//	//Ì½²âÍê±Ï
+//         // ç”¨ä¸´æ—¶æŒ‡é’ˆå¾€åæ¢æµ‹
+//         while (*p1 && *p2 && *p1 == *p2)
+//         {
+//             p1++;
+//             p2++;
+//         }
+//         // æ¢æµ‹å®Œæ¯•
 //
-//	//	//p2Óöµ½'\0'ËµÃ÷×Ó´®´æÔÚ£¬·µ»Øµ±Ç°Ö¸Õë
-//	//	if (!*p2) return curr;
+//         // p2 é‡åˆ° '\0' è¯´æ˜å­ä¸²å­˜åœ¨ï¼Œè¿”å›å½“å‰æŒ‡é’ˆ
+//         if (!*p2)
+//             return curr;
 //
-//	//	//p2Ã»Óöµ½'\0'¶øp1Óöµ½£¬ËµÃ÷currÍùºóµÄ×Ó´®³¤¶ÈĞ¡ÓÚstr2µÄ£¬ÔÙÌ½²âÒ²Ã»ÓĞÒâÒå£¬·µ»ØNULL
-//	//	if (!*p1) return NULL;
+//         // p2 æ²¡é‡åˆ° '\0' è€Œ p1 é‡åˆ°ï¼Œ
+//         // è¯´æ˜ curr å¾€åçš„å­ä¸²é•¿åº¦å°äº str2 çš„ï¼Œ
+//         // å†æ¢æµ‹ä¹Ÿæ²¡æœ‰æ„ä¹‰ï¼Œè¿”å› NULL
+//         if (!*p1)
+//             return NULL;
 //
-//	//	//p1ºÍp2¶¼Ã»Óöµ½'\0'£¬½øĞĞĞÂÒ»ÂÖÌ½²â
-//	//	curr++;
+//         // p1 å’Œ p2 éƒ½æ²¡é‡åˆ° '\0'ï¼Œè¿›è¡Œæ–°ä¸€è½®æ¢æµ‹
+//         curr++;
 //
-//	//	//ÄÇÈç¹ûp1ºÍp2¶¼Óöµ½'\0'ÄØ£¿
-//	//	//×Ó´®´æÔÚ£¬·µ»Øµ±Ç°Ö¸Õë
-//	//	//×¢ÒâÉÏÃæÈıÖÖÇé¿öÒÑ¾­°üº¬È«²¿Çé¿ö£º
-//	//	// p1Óöµ½'\0'£¨²»¹Üp2Óöµ½Ã»£©£»
-//	//	// p1Ã»Óöµ½p2Óöµ½£»
-//	//	// p1p2¶¼Ã»Óöµ½
-//	//}
-//	//return NULL;
-//
-//	//·¨¶ş£ºkmpËã·¨£¨×Ö·û´®Æ¥ÅäËã·¨£©£¨ÂÔ£©
-//}
+//         // é‚£å¦‚æœ p1 å’Œ p2 éƒ½é‡åˆ° '\0' å‘¢ï¼Ÿ
+//         // æ³¨æ„ï¼Œ
+//         // ä¸Šé¢ä¸‰ç§æƒ…å†µå·²ç»æ˜¯å…¨éƒ¨æƒ…å†µï¼š
+//     }
+//     return NULL;
+//     // æ³•äºŒï¼škmpç®—æ³•ï¼ˆå­—ç¬¦ä¸²åŒ¹é…ç®—æ³•ï¼‰ï¼ˆç•¥ï¼‰
+// }
 
+/*
+ * 9.strtok
+ * ç”¨æ¥åˆ†å‰²å­—ç¬¦ä¸²ï¼ˆé‡åˆ°åˆ†éš”ç¬¦å°±æŠŠå…¶æ”¹ä¸º '\0'ï¼‰
+ *
+ * å£°æ˜
+ * char *strtok( char *strToken, const char *strDelimit );
+ *
+ * ç”¨æ³•ï¼š
+ * 1.ç¬¬ä¸€ä¸ªå‚æ•°æ˜¯è¦è¢«åˆ†å‰²çš„ strï¼ˆæˆ– NULLï¼‰
+ * 2.ç¬¬äºŒä¸ªå‚æ•°æ˜¯åˆ†éš”ç¬¦çš„é›†åˆï¼ˆå³å­—ç¬¦ä¸²ï¼‰
+ * 3.ç¬¬ä¸€ä¸ªå‚æ•°æ˜¯ strï¼š
+ *   æŠŠ str çš„ç¬¬ä¸€ä¸ªåˆ†éš”ç¬¦æ”¹ä¸º '\0'ï¼Œå¹¶ä¿å­˜ä¸‹ä¸€ä¸ªå­—èŠ‚çš„åœ°å€
+ * 4.ç¬¬ä¸€ä¸ªå‚æ•°æ˜¯ NULLï¼š
+ *   å‡½æ•°å°†åœ¨ä¸Šä¸€æ¬¡ä¿å­˜çš„åœ°å€åé¢ç»§ç»­æŸ¥æ‰¾ã€‚
+ * 5.æ²¡æœ‰é‡åˆ°æ ‡å¿—ç¬¦ï¼Œè¿”å› NULLï¼›
+ *   é‡åˆ°äº†ï¼Œè¿”å›è¿™æ¬¡åˆ†å‰²å‡ºå»çš„å­—ç¬¦ä¸²çš„é¦–åœ°å€
+ */
 
+// ç»ƒä¹ ä½¿ç”¨ strtok
+// int main()
+// {
+//     char arr[] = "192.168.0.100";
+//     // char p[] = {'.'};
+//     char p[] = ".";
+//     // æ³¨æ„äºŒè€…åŒºåˆ«ã€‚"." æœ‰ä¸¤ä¸ªæ ‡å¿—ç¬¦ï¼š'.' å’Œ '\0'
+//
+//     char buf[1024] = {0};
+//     strcpy(buf, arr);
+//     // ç›´æ¥å¯¹ arr ä½¿ç”¨ strtok ä¼šç ´åæ•°æ®ã€‚ä½¿ç”¨ strtok å‰è¦æ‹·è´ä¸€ä¸‹
+//
+//     char *ret = strtok(buf, p);
+//     printf("%s\n", ret);
+//     int i = 0;
+//     for (i = 0; i < 3; i++)
+//     {
+//         ret = strtok(NULL, p);
+//         printf("%s\n", ret);
+//     }
+//
+//     // å°†ä¸Šé¢çš„ä»£ç æ”¹å†™ä¸€ä¸‹
+//     // å¦™ç”¨ for å¾ªç¯çš„æœºåˆ¶
+//     char *ret = NULL;
+//     for (ret = strtok(buf, p);
+//          ret != NULL;
+//          ret = strtok(NULL, p))
+//     {
+//         printf("%s\n", ret);
+//     }
+//     return 0;
+// }
+// strtok å‡½æ•°å†…éƒ¨å¯ä»¥è®°ä½åœ°å€ï¼Œæ¨æµ‹æ˜¯ç”¨é™æ€å˜é‡å®ç°çš„
 
-//9.strtok
-// ÓÃÀ´·Ö¸î×Ö·û´®£¨Óöµ½±êÖ¾·û¾Í°ÑÆä¸ÄÎª'\0'£©
-// 
-// ÉùÃ÷
-// char *strtok( char *strToken, const char *strDelimit );
-// 
-// ÓÃ·¨£º
-// 1.µÚÒ»¸ö²ÎÊı´«²ÎÊ±£¬´«µÄÊÇÒª±»·Ö¸îµÄstr£¨»òNULL£©
-// 2.µÚ¶ş¸ö²ÎÊı´«²ÎÊ±£¬´«µÄÊÇ±êÖ¾·ûµÄ¼¯ºÏ£¨Ò²ÊÇ×Ö·û´®£©
-// 3.µÚÒ»¸ö²ÎÊı²»ÊÇNULL£ºº¯Êı»á°Ñ´«½øÀ´µÄstrµÄµÚÒ»¸ö±ê¼Ç¸ÄÎª'\0'£¬²¢±£´æ¸Ã±ê¼ÇµÄÏÂÒ»¸ö×Ö·ûµÄµØÖ·
-// 4.µÚÒ»¸ö²ÎÊıÊÇNULL£ºº¯Êı½«ÔÚ±£´æµÄµØÖ·Íùºó¼ÌĞø²éÕÒ¡£
-// 5.Ã»ÓĞÓöµ½±êÖ¾·û£¬·µ»ØNULL
-//   Óöµ½ÁË£¬·µ»Ø·Ö¸î³öÈ¥µÄÒ»²¿·Ö×Ö·û´®µÄÊ×µØÖ·
-//
-//int main()
-//{
-//	char arr[] = "192.168.0.100";
-//	//char p[] = {'.'};
-//	char p[] = ".";			//×¢Òâ¶şÕßÇø±ğ¡£"."ÓĞÁ½¸ö±êÖ¾·û£¬'.'ºÍ'\0'
-//
-//	char buf[1024] = { 0 };
-//	strcpy(buf, arr);		//Ö±½Ó¶ÔarrÊ¹ÓÃstrtok»áÆÆ»µÊı¾İ¡£Ê¹ÓÃstrtokÇ°Òª¿½±´Ò»ÏÂ
-//
-//	//char* ret = strtok(buf, p);
-//	//printf("%s\n", ret);
-//	//
-//	//int i = 0;
-//	//for (i = 0; i < 3; i++)
-//	//{
-//	//	ret = strtok(NULL, p);
-//	//	printf("%s\n", ret);
-//	//}
-//
-//	//½«ÉÏÃæµÄ´úÂë¸ÄĞ´Ò»ÏÂ
-//	char* ret = NULL;
-//	for (ret = strtok(buf, p); ret != NULL; ret = strtok(NULL, p))
-//	{
-//		printf("%s\n", ret);
-//	}
-//	//ÃîÓÃforÑ­»·µÄ»úÖÆ
-//
-//	return 0;
-//}
-// 
-// strtokº¯ÊıÄÚ²¿¿ÉÒÔ¼Ç×¡µØÖ·£¬ÍÆ²âÊÇÓÃ¾²Ì¬±äÁ¿ÊµÏÖµÄ
-//
+// æ‰‹æ“ strtokï¼ˆç•¥ï¼‰
 
-//ÊÖ´êstrtok£¨ÂÔ£©
+/*
+ * 10.strerror å’Œ _strerror
+ * Get a system error message (strerror)
+ * prints a user-supplied error message (_strerror)
+ *
+ * å£°æ˜
+ * char *strerror( int errnum );
+ * char *_strerror( const char *strErrMsg );ï¼ˆç•¥ï¼‰
+ *
+ * strerror
+ * å°†å‚æ•° errnum æ˜ å°„åˆ°ä¸€æ¡æœ‰å…³é”™è¯¯ä¿¡æ¯çš„å­—ç¬¦ä¸²ï¼Œç„¶åè¿”å›é¦–åœ°å€
+ *
+ * æ³¨æ„ï¼š
+ * _strerror ä¸æ˜¯ C æ ‡å‡†çš„åº“å‡½æ•°ï¼Œè€Œæ˜¯å¾®è½¯çš„ä¸€ä¸ªæ‹“å±•ï¼Œ
+ * å¯¹å¯ç§»æ¤æ€§æœ‰è¦æ±‚çš„ç¨‹åºä¸èƒ½ä½¿ç”¨ _strerrorã€‚
+ */
 
+// int main()
+// {
+//     int i = 0;
+//     char *str = NULL;
+//     for (i = 0; i < 46; i++)
+//     {
+//         str = strerror(i);
+//         printf("%s\n", str);
+//     }
+//     return 0;
+// }
 
+// é”™è¯¯ç   é”™è¯¯ä¿¡æ¯
+//  0  -   No error
+//  1  -   Operation not permitted
+//  2  -   No such file or directory
+//  ...
+// ï¼ˆè¯¦è§ errno å£°æ˜ï¼‰
 
-//10.strerrorºÍ_strerror
-// Get a system error message (strerror) or prints a user-supplied error message (_strerror).
-// 
-// ÉùÃ÷
-// char *strerror( int errnum );
-// char *_strerror( const char *strErrMsg );£¨ÂÔ£©
-// 
-// ·µ»Ø´íÎóÂëerrnum¶ÔÓ¦µÄ´íÎóĞÅÏ¢£¨°Ñ´íÎóÂë×ª»»³ÉÄÜÀí½âµÄ´íÎóĞÅÏ¢£¬È»ºó·µ»Ø£©
+// å®é™…ç”¨æ³•
+// #include <errno.h>
+// int main()
+// {
+//     // æ‰“å¼€æ–‡ä»¶ test.txt
+//     FILE *pf = fopen("test.txt", "r");
 //
-//int main()
-//{
-//	int i = 0;
-//	char* str = NULL;
-//	for (i = 0; i < 46; i++)
-//	{
-//		str = strerror(i);
-//		printf("%s\n", str);
-//	}
-//	return 0;
-//}
-// 
-//´íÎóÂë  ´íÎóĞÅÏ¢
-// 0  -   No error
-// 1  -   Operation not permitted
-// 2  -   No such file or directory
-// ...£¨Ïê¼ûerrnoÉùÃ÷£©
+//     // FILEï¼šå®šä¹‰å¥½çš„ç»“æ„ä½“ã€‚
+//     // fopenï¼šæ‰“å¼€æ–‡ä»¶å‡½æ•°ã€‚
+//     // "r"ï¼šè¡¨ç¤ºä»¥åªè¯»çš„æ–¹å¼æ‰“å¼€
+//     //
+//     // æ„ä¸ºåœ¨å½“å‰è·¯å¾„ä¸‹ä»¥åªè¯»çš„æ–¹å¼æ‰“å¼€æ–‡ä»¶ test.txtï¼Œ
+//     // pf æ¥æ”¶å‡½æ•°è¿”å›å€¼ã€‚
+//     // è¿™é‡Œç”±äºå½“å‰è·¯å¾„ä¸‹æ²¡æœ‰ test.txtï¼Œ
+//     // fopen å°†è¿”å› NULLã€‚
+//     // è¯¦è§"æ–‡ä»¶æ“ä½œ"
+//
+//     if (pf == NULL)
+//         printf("%s\n", strerror(errno));
+//     else
+//         printf("open file success\n");
+//     return 0;
+// }
+// errno æ˜¯ä¸€ä¸ªå…¨å±€å˜é‡ï¼Œç”¨æ¥å­˜å‚¨é”™è¯¯ç ã€‚
+// æ¯æ¬¡ç³»ç»Ÿè°ƒç”¨åéƒ½ä¼šåˆ·æ–° errnoï¼Œ
+// å› æ­¤å¯ä»¥æ ¹æ® errno çš„å€¼ï¼Œ
+// æ¥æ£€æµ‹ç³»ç»Ÿè°ƒç”¨æœ‰æ²¡æœ‰å‡ºé—®é¢˜ã€‚
+// ï¼ˆæ³¨æ„ï¼šæ˜¯ç³»ç»Ÿè°ƒç”¨ä¸æ˜¯å‡½æ•°è°ƒç”¨ï¼‰
+// strerror å»ºç«‹äº†ç”± errno åˆ°å­—ç¬¦ä¸²ï¼ˆé”™è¯¯ä¿¡æ¯ï¼‰çš„æ˜ å°„å…³ç³»ã€‚
 
-//Êµ¼ÊÓÃ·¨
-//#include <errno.h>
-//int main()
-//{
-//	//char* str = strerror(errno);
-//	//printf("%s\n", str);
-//	//errnoÊÇÒ»¸öÈ«¾Ö±äÁ¿£¬ÓÃÀ´´æ´íÎóÂë
-//	//C¿âº¯ÊıÔÚÖ´ĞĞ¹ı³ÌÖĞ£¬·¢ÉúÁË´íÎó£¬¾Í»á°Ñ¶ÔÓ¦µÄ´íÎóÂë£¬¸³Öµ¸øerrno
-//
-//	//´ò¿ªÎÄ¼ştest.txt
-//	FILE* pf = fopen("test.txt", "r");
-//
-//	//FILE£º¶¨ÒåºÃµÄ½á¹¹Ìå¡£
-//	//fopen:´ò¿ªÎÄ¼şº¯Êı¡£
-//	//"r"£º±íÊ¾ÒÔÖ»¶ÁµÄ·½Ê½´ò¿ª
-//	// 
-//	//ÒâÎªÔÚ±¾Â·¾¶ÏÂÒÔÖ»¶ÁµÄ·½Ê½´ò¿ªÎÄ¼ştest.txt£¬pf½ÓÊÕº¯Êı·µ»ØÖµ
-//	//Ïê¼û"ÎÄ¼ş²Ù×÷"
-//
-//
-//	if (pf == NULL)
-//		printf("%s\n", strerror(errno));
-//	else
-//		printf("open file success\n");
-//	return 0;
-//}
+// æ‰‹æ“ strerrorï¼ˆç•¥ï¼‰
 
-//ÊÖ´êstrerror£¨ÂÔ£©
+/*
+ * 11.å­—ç¬¦åˆ†ç±»å‡½æ•°
+ * å‡½æ•°	          å¦‚æœå‚æ•°æ˜¯ä¸‹åˆ—ç±»å‹çš„å­—ç¬¦å°±è¿”å›çœŸï¼ˆéé›¶ï¼‰
+ * iscntrl        æ§åˆ¶å­—ç¬¦
+ * isspace        ç©ºç™½å­—ç¬¦ï¼šåŒ…æ‹¬ ' ','\f','\n','\r','\t' å’Œ '\v'
+ * isdigit        åè¿›åˆ¶æ•°å­—
+ * isxdigit       åå…­è¿›åˆ¶æ•°å­—ï¼ˆa~f å¤§å°å†™å‡å¯ï¼‰
+ * islower        å°å†™å­—æ¯
+ * isupper        å¤§å†™å­—æ¯
+ * isalpha        å­—æ¯
+ * isalnum        å­—æ¯æˆ–æ•°å­—
+ * ispunct        ä»»ä½•ä¸å±äºæ•°å­—æˆ–å­—æ¯çš„å›¾å½¢å­—ç¬¦ï¼ˆä¸æ˜¯ isalnum çš„è¡¥é›†ï¼‰
+ * isgraph        ä»»ä½•å›¾å½¢å­—ç¬¦
+ * isprint        å¯æ‰“å°å­—ç¬¦ï¼šåŒ…æ‹¬ç©ºç™½å­—ç¬¦å’Œå›¾å½¢å­—ç¬¦
+ */
 
+// #include <ctype.h>
+// int main()
+// {
+//     char a = 'j', b = '8', c = 'W';
+//     int a_ret = islower(a);
+//     int b_ret = isdigit(b);
+//     int c_ret = isupper(c);
+//     printf("%d %d %d\n", a_ret, b_ret, c_ret);
+//     return 0;
+// }
 
+/*
+ * 12.å­—ç¬¦è½¬æ¢å‡½æ•°
+ * int tolower( int c );
+ * int toupper( int c );
+ *
+ * å°‘ç”¨ã€‚
+ * 1.æœ‰å‡½æ•°è°ƒç”¨èŠ±é”€
+ * 2.å¯¹äºå¤§éƒ¨åˆ†æœºå™¨ï¼Œå­—æ¯çš„ ASCII å€¼è¿ç»­ã€‚å¯ä»¥æ‰‹æ“
+ */
 
-//11.×Ö·û·ÖÀàº¯Êı
-// º¯Êı	          Èç¹û²ÎÊıÊÇÏÂÁĞÀàĞÍµÄ×Ö·û¾Í·µ»Ø·ÇÁã
-// iscntrl        ¿ØÖÆ×Ö·û
-// isspace        ¿Õ°××Ö·û£º°üÀ¨¿Õ¸ñ¡¢»»Ò³'\f'¡¢»»ĞĞ'\n'¡¢»Ø³µ'\r'¡¢ÖÆ±í·û'\t'ºÍ´¹Ö±ÖÆ±í·û'\v'
-// isdigit        Ê®½øÖÆÊı×Ö
-// isxdigit       Ê®Áù½øÖÆÊı×Ö£¨a-f´óĞ¡Ğ´¾ù¿É£©
-// islower        Ğ¡Ğ´×ÖÄ¸
-// isupper        ´óĞ´×ÖÄ¸
-// isalpha        ×ÖÄ¸
-// isalnum        ×ÖÄ¸»òÊı×Ö
-// ispunct        ÈÎºÎ²»ÊôÓÚÊı×Ö»ò×ÖÄ¸µÄÍ¼ĞÎ×Ö·û£¨²»ÊÇisalnumµÄ²¹¼¯£©
-// isgraph        ÈÎºÎÍ¼ĞÎ×Ö·û
-// isprint        ¿É´òÓ¡×Ö·û£º°üÀ¨¿Õ°××Ö·ûºÍÍ¼ĞÎ×Ö·û
+// #include <ctype.h>
+// int main()
+// {
+//     char ch = tolower('A');
+//     putchar(ch);
+//     ch = toupper('b');
+//     putchar(ch);
+//     putchar('\n');
 //
-//#include <ctype.h>
-//
-//int main()
-//{
-//    //char ch = 'j';
-//    //int ret = islower(ch);
-//
-//    //char ch = '8';
-//    //int ret = isdigit(ch);
-//
-//    char ch = 'W';
-//    int ret = isupper(ch);
-//
-//    printf("%d\n", ret);
-//    return 0;
-//} 
-
-
-
-//12.×Ö·û×ª»»º¯Êı
-// int tolower( int c );
-// int toupper( int c );
-//
-//#include <ctype.h>
-//
-//int main()
-//{
-//    //char ch = tolower('A');
-//    //putchar(ch);
-//
-//    //ch = toupper('b');
-//    //putchar(ch);
-//
-//    char arr[] = "I Am A Student";
-//    int i = 0;
-//    while (arr[i])
-//    {
-//        if (isupper(arr[i]))
-//            arr[i] = tolower(arr[i]);
-//        i++;
-//    }
-//
-//    printf("%s\n", arr);
-//    return 0;
-//}
+//     char arr[] = "I Am A Student";
+//     int i = 0;
+//     while (arr[i])
+//     {
+//         if (isupper(arr[i]))
+//             arr[i] = tolower(arr[i]);
+//         i++;
+//     }
+//     printf("%s\n", arr);
+//     return 0;
+// }
