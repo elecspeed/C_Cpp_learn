@@ -209,7 +209,8 @@
  *   面对只有两个元素的数组，选择中间数。
  */
 
-// 仿造 intQuickSort 写 MyQuickSort
+// MyQuickSort
+#include <time.h>
 static void InsertSort(
 	char *base,
 	size_t num,
@@ -226,7 +227,7 @@ static void InsertSort(
 		extreme = base;
 		// 找到其余元素中的最值元素
 		for (i = width; i <= num * width; i += width)
-			if (compare(extreme, base + i) < 0)
+			if (compare(extreme, base + i) > 0)
 				extreme = base + i;
 		// 以字节为单位，将最值元素和当前元素交换
 		for (i = 0; i < width; ++i)
@@ -237,12 +238,12 @@ static void InsertSort(
 		}
 	}
 }
-#define SWAP(e1, e2, width)                          \
-	for (size_t QSORT = 0; QSORT < (width); ++QSORT) \
-	{                                                \
-		char tmp = (e1)[QSORT];                      \
-		(e1)[QSORT] = (e2)[QSORT];                   \
-		(e2)[QSORT] = tmp;                           \
+#define SWAP(e1, e2, width)                             \
+	for (size_t SWAP_i = 0; SWAP_i < (width); ++SWAP_i) \
+	{                                                   \
+		char tmp = (e1)[SWAP_i];                        \
+		(e1)[SWAP_i] = (e2)[SWAP_i];                    \
+		(e2)[SWAP_i] = tmp;                             \
 	}
 void MyQuickSort(
 	void *const base,
@@ -251,6 +252,7 @@ void MyQuickSort(
 	int (*const compare)(const void *element1,
 						 const void *element2))
 {
+	// 快速排序
 	// 检查参数
 	if (num < 2 || !base || !width || !compare)
 		return;
@@ -279,20 +281,20 @@ void MyQuickSort(
 			SWAP(left, mid, width)
 		}
 		// 此时，left <= mid <= right
-		// 中间元素和倒数第二个元素交换
-		SWAP(mid, right - width, width)
+		// 再将中间元素和倒数第二个元素交换，
+		// 倒数第二个元素变成了中间元素。
 		char *median = right - width;
-		// 此时，倒数第二个元素是中间元素。
+		SWAP(mid, median, width)
 
-		char *i = left + width;
-		char *j = median - width;
+		char *i = left;
+		char *j = median;
 		for (;;)
 		{
-			while (compare(i, median) < 0)
-				i += width;
-			while (compare(j, median) > 0)
-				j -= width;
-			// 得益于前面的排序，i 和 j 不会越界
+			while (compare((i += width), median) < 0)
+				;
+			while (compare((j -= width), median) > 0)
+				;
+			// 得益于前面的顺便排序，i 和 j 不会越界
 
 			if (i < j)
 			{
@@ -301,46 +303,15 @@ void MyQuickSort(
 			else
 				break;
 		}
+		// 退出循环时，i 右边的元素包括 i，大于等于 median；
+		// i 左边的，小于 median。
+		// 交换 i 和 median。
 		SWAP(i, median, width)
-		// 成为了真正意义上的“中间元素”
 
-		size_t leftnum = (i - left) / width - 1;
+		// 对中间元素的两边进行同样的操作（递归）
+		size_t leftnum = (i - left) / width;
 		size_t rightnum = num - leftnum - 1;
 		MyQuickSort(left, leftnum, width, compare);
 		MyQuickSort(i + width, rightnum, width, compare);
 	}
-}
-// 用 MyQuickSort 排序结构体数组
-#include <string.h>
-struct book
-{
-	char name[3];
-	float price;
-};
-typedef struct book Book;
-int cmp_Book_by_price(const void *e1, const void *e2)
-{
-	if (((Book *)e1)->price > ((Book *)e2)->price)
-		return 1;
-	else if (((Book *)e1)->price < ((Book *)e2)->price)
-		return -1;
-	else
-		return 0;
-}
-int cmp_Book_by_name(const void *e1, const void *e2)
-{
-	return strcmp(((Book *)e1)->name, ((Book *)e2)->name);
-}
-int main()
-{
-	Book b[3] = {{"a", 3.0}, {"c", 2.0}, {"b", 4.0}};
-	int num = sizeof(b) / sizeof(b[0]);
-
-	// 以价格排序
-	MyQuickSort(b, num, sizeof(b[0]), cmp_Book_by_price);
-	// 以名字排序
-	MyQuickSort(b, num, sizeof(b[0]), cmp_Book_by_name);
-
-	// 调试观察
-	return 0;
 }
