@@ -72,104 +72,155 @@
 /*
  * 文件指针
  * 在缓冲文件系统中，每个被使用的文件
- * 都在内存中开辟了一块文件信息区（与文件缓冲区不同），
+ * 都在内存中开辟了一块文件信息区（注意不是文件缓冲区），
  * 该文件信息区用来存放文件的相关信息
  * （如文件名，文件状态，文件位置等）。
  *
  * 而这块文件信息区不就刚好是结构体变量？！
- * 于是，系统将该结构体类型声明为 FILE，
+ * 于是，系统将该结构体类型声明为 FILE。
  * 每使用一个文件，
- * 系统就创建一个 FILE 结构体变量，
- * 并自动填充相关信息。
- * 当文件内容发生变化，FILE 结构体成员变量也会发生变化。
+ * 系统就创建一个 FILE 结构体变量，并自动初始化成员变量。
+ * 由于这些成员变量存储着相关信息，
+ * 所以当文件相关信息发生变化，
+ * FILE 的成员变量也会发生变化。
  *
- * 那么，这块动态开辟的空间就由“文件指针”来管理
+ * 那么，这块开辟的空间就由“文件指针”来管理。
+ * （个人感觉，文件操作是针对结构体 FILE 的动态内存操作）
+ */
+
+// 观察 FILE 成员
+// int main()
+// {
+//     // 以 "r","w","a" 三种方式打开的文件，
+//     // 其 FILE 成员有什么不同
+//     char *str_arr[3] = {"r", "w", "a"};
+//     int i;
+//     for (i = 0; i < 3; ++i)
+//     {
+//         FILE *pf = fopen("./test.txt", str_arr[i]);
+//         if (!pf)
+//             return 0;
+//         else
+//         {
+//             printf("%s\n", pf->_base);
+//             printf("%d\n", pf->_bufsiz);
+//             printf("%d\n", pf->_charbuf);
+//             printf("%d\n", pf->_cnt);
+//             printf("%d\n", pf->_file);
+//             printf("%d\n", pf->_flag);
+//             printf("%s\n", pf->_ptr);
+//             printf("%s\n", pf->_tmpfname);
+//             fclose(pf);
+//         }
+//     }
+//     return 0;
+// }
+
+/*
+ * 文件使用前要先打开，使用完要关闭。
+ * C 语言每打开文件，都会返回文件信息区的地址（动态内存分配），
+ * 相当于建立了指针和文件的联系。
  */
 
 /*
- * 文件使用前要先打开，使用完要关闭
- *
- * C 语言每打开文件，都会返回文件信息区的地址（动态内存分配），
- * 相当于建立了指针和文件的联系。
- *
  * fopen 函数
- * 定义
+ * 声明
  * FILE *fopen( const char *filename, const char *mode );
  * filename：文件名，
  * mode：打开方式。
  *
- * 打开方式    含义                         如果指定文件不存在
- *   "r"     打开一个文本文件读取数据        出错
- *   "w"     打开一个文本文件写入数据        新建一个文本文件并写入数据
- *   "a"     向文本文件尾部追加数据          出错
- *   "rb"
- *   "wb"
- *   "ab"    同上（换成二进制文件）          同上
+ * 打开方式
+ * "r"：以只读的方式打开。
+ *      如果指定文件不存在或没找到，返回 NULL。
+ * "w"：以只写的方式打开。
+ *      存在，其内容将被清空；
+ *      不存在，新建一个。
+ * "a"：以只追加的方式打开。
+ *      不存在先创建；
+ *      只能在文件尾部写入数据。
+ * "r+"：以读写的方式打开。
+ *       其余同 "r"。
+ * "w+"：以读写的方式打开。
+ *       其余同 "w"
+ * "a+"：以读写的方式打开。
+ *       被追加的文件以 EOF 结尾。
+ *       其余同 "a"
+ * （使用 "a" 和 "a+"，原数据不会被修改）
  *
- *   "r+"    打开一个文本文件读写数据        出错
- *   "w+"    新建一个文本文件读写数据
- *   "a+"    打开一个文本文件，在尾部读写数据 新建
- *   "rb+"
- *   "wb+"
- *   "ab+"   同上
+ * 后缀 t,b,c,n
+ * t：以文本模式打开。涉及文本编码问题。
+ * b：以二进制模式打开。
+ * c：未知
+ * n：未知
  */
 
 // 打开文件 test.txt
 // int main()
-//{
-//     //绝对路径
-//     //FILE* pf = fopen("E:\\Source\\Repos\\elecspeed\\C_learn\\文件操作\\test.txt", "r");
+// {
+//     // 绝对路径
+//     // FILE *pf = fopen(
+//     //     "C:\\Users\\elecspeed\\Desktop\\test.txt",
+//     //     "r");
+//     // 相对路径
+//     // FILE *pf = fopen("../../test.txt", "r");
 //
-//     //相对路径
-//     //FILE* pf = fopen("../../test.txt", "r");
-//     FILE* pf = fopen("test.txt", "r");
-//
+//     FILE *pf = fopen("test.txt", "r");
 //     if (!pf)
 //     {
-//         //打开失败
+//         // 打开失败
 //         printf("%s", strerror(errno));
 //         return 0;
 //     }
-//     //打开成功
+//     // ...
 //
-//     //读文件
-//     //关闭文件
+//     // 关闭文件
 //     fclose(pf);
 //     pf = NULL;
-//
 //     return 0;
 // }
 
-// 关闭文件用fclose 或 _fcloseall函数
-//  Closes a stream (fclose) or closes all open streams (_fcloseall).
-//
-//  声明
-//  int fclose( FILE *stream );
-//  int _fcloseall( void );
+/*
+ * 关闭文件
+ * Closes a stream (fclose)
+ * or
+ * closes all open streams except for stdin,stdout,stderr
+ * (_fcloseall).
+ *
+ * 声明
+ * int fclose( FILE *stream );
+ * int _fcloseall( void );
+ * stream：对应的文件指针
+ *
+ * fclose 成功返回 0，否则返回 EOF；
+ * _fcloseall 成功返回关闭的文件数，否则返回 EOF。
+ */
 
-// 文件的顺序读写
-//   函数名      功能                适用于
-//   fgetc       字符输入            所有输入流
-//   fputc       字符输出            所有输出流
-//   fgets       文本行输入
-//   fputs       文本行输出          同上
-//   fscanf      格式化输入
-//   fprintf     格式化输出          同上
-//   fread       二进制输入          文件
-//   fwrite      二进制输出          文件
+/*
+ * 文件的顺序读写
+ * 函数名       功能                适用于
+ * fgetc       字符输入            所有输入流
+ * fputc       字符输出            所有输出流
+ * fgets       文本行输入
+ * fputs       文本行输出          同上
+ * fscanf      格式化输入
+ * fprintf     格式化输出          同上
+ * fread       二进制输入          文件
+ * fwrite      二进制输出          文件
+ */
 
 // int main()
-//{
-//     FILE* pf = fopen("test.txt", "r");    //打开方式会影响读写函数
+// {
+//     // 不同的打开方式会有不同的读写函数
+//     FILE *pf = fopen("test.txt", "r");
 //     if (!pf)
 //     {
 //         printf("%s\n", strerror(errno));
 //         return 0;
 //     }
-//     //写
-//     //fputc('g', pf);
 //
-//     //读
+//     // 写
+//     fputc('g', pf);
+//     // 读
 //     int ch = fgetc(pf);
 //     putchar(ch);
 //
@@ -178,171 +229,132 @@
 //     return 0;
 // }
 
-// 键盘和屏幕都是外部设备
-// 键盘 - 标准输入设备
-// 屏幕 - 标准输出设备
-// 是每个程序默认打开的两个流设备
-// 三个默认打开的流设备：stdin，stdout，stderr
-// FILE* stdin
-// FILE* stdout
-// FILE* stderr
+/*
+ * 键盘和屏幕都是提供交互的设备。
+ * 键盘 - 标准输入设备
+ * 屏幕 - 标准输出设备
+ * 二者是每个程序默认打开的两个流设备。
+ * 其实，
+ * 一共有三个默认打开的流设备：stdin,stdout,stderr
+ * FILE* stdin
+ * FILE* stdout
+ * FILE* stderr
+ *
+ * 因此，文件读写函数可以操作标准输入输出流
+ */
 
-// 因此，文件读写函数可以操作标准输入输出流
 // int main()
-//{
+// {
 //     int ch = fgetc(stdin);
 //     fputc(ch, stdout);
-//
 //     return 0;
 // }
 
-// 练习使用文件读写函数
-// int main()
-//{
-//     char buf[100] = { 0 };
-//     FILE* pf = fopen("test.txt", "r");
-//     if (!pf)
-//     {
-//         printf("%s", strerror(errno));
-//         return 0;
-//     }
-//     //读文件
-//     fgets(buf, 100, pf);
-//     //printf("%s", buf);       //打印看看。同时注意printf，fprintf，puts，fputs四者的不同和相同
-//     //fprintf(stdout, "%s", buf);
-//     //puts(buf);
-//     //fputs(buf, stdout);
-//
-//     fgets(buf, 100, pf);
-//     //printf("%s", buf);
-//     //fprintf(stdout, "%s", buf);
-//     //puts(buf);
-//     //fputs(buf, stdout);
-//
-//     fclose(pf);
-//     pf = NULL;
-//
-//     return 0;
-// }
-
-// int main()
-//{
-//     char buf[100] = { 0 };
-//
-//     FILE* pf = fopen("test.txt", "w");
-//     if (!pf)
-//     {
-//         printf("%s", strerror(errno));
-//         return 0;
-//     }
-//     //写文件
-//     //scanf("%s", buf);
-//     //fscanf(stdin, "%s", buf);
-//     //gets(buf);
-//     //fgets(buf, 100, stdin);
-//     fputs(buf, pf);
-//
-//     fclose(pf);
-//     pf = NULL;
-//
-//     return 0;
-// }
+// 练习使用文件读写函数（略）
 
 // 笔试题（对比下列函数）
-// printf/fprintf/sprintf
-// scanf /fscanf /sscanf
+// printf,fprintf,sprintf
+// scanf,fscanf,sscanf
 //
-// print和scanf   是针对 标准输入输出流 的 格式化输入输出函数
-// fprintf和fscnaf是针对 所有输入输出流 的 格式化输入输出函数
+// printf 和 scanf 是针对 标准输入输出流 的 格式化输入输出函数
+// fprintf 和 fscnaf 是针对 所有输入输出流 的 格式化输入输出函数
+// 因此，
+// printf,scanf 分别是 fprintf,fscanf 的子集。
 
-// sscanf和sprintf
+// sscanf 和 sprintf
 // struct S
-//{
+// {
 //     int i;
 //     float f;
 //     char arr[10];
 // };
+// typedef struct S S;
 // int main()
-//{
-//     struct S s = { 100, 3.14f, "abcdef" };
-//     char buf[1024] = { 0 };
+// {
+//     S s = {100, 3.14f, "abcdef"};
+//     S tmp = {0};
+//     char buf[1024] = {0};
 //
-//     sprintf(buf, "%d %f %s", s.i, s.f, s.arr);
-//
-//     struct S tmp = { 0 };
-//     sscanf(buf, "%d %f %s", &(tmp.i), &(tmp.f), tmp.arr);
-//
-//     //调试看结果
+//     sprintf(buf,
+//             "%d %f %s",
+//             s.i, s.f, s.arr);
+//     sscanf(buf,
+//            "%d %f %s",
+//            &(tmp.i), &(tmp.f), tmp.arr);
+//     // 调试看结果
 //     return 0;
 // }
-//
-// int sprintf( char *buffer, const char *format [, argument] ... );
-// 将后面的参数，按照format字符串的格式转成str，再存储到buffer
-//
-// int sscanf( const char *buffer, const char *format [, argument ] ... );
-// 将前面的字符串buffer，按照format的格式读取数据，再存储到后面的参数
+
+/*
+ * sprintf 和 sscanf
+ * 声明
+ * int sprintf( char *buffer, const char *format [, argument] ... );
+ * 字符串格式化
+ *
+ * int sscanf( const char *buffer, const char *format [, argument ] ... );
+ * 读取格式化字符串中的数据
+ */
 
 // struct S
-//{
-//     char name[20];
+// {
+//     char name[8];
 //     int age;
 //     double score;
 // };
+// typedef struct S S;
 // int main()
-//{
-//     struct S s[3] = {
-//         { "张三", 20, 59.9},
-//         { "张三", 20, 59.9 },
-//         { "张三", 20, 59.9 },
+// {
+//     S s1[3] = {
+//         {"张三", 20, 59.9},
+//         {"张三", 20, 59.9},
+//         {"张三", 20, 59.9},
 //     };
-//     FILE* pf = fopen("test.txt", "wb");
+//     FILE *pf = fopen("test.txt", "wb");
 //     if (!pf)
 //         return 0;
-//     //以二进制的形式写文件
-//     fwrite(&s, sizeof(struct S), 3, pf);
-//
+//     fwrite(&s1, sizeof(S), 3, pf);
 //     fclose(pf);
-//     pf = NULL;
+//     // 打开同目录的 test.txt 文件看结果
 //
-//     //打开同目录的test.txt文件看结果
-//     return 0;
-// }
-// int main()
-//{
-//     struct S s[3] = { 0 };
-//     FILE* pf = fopen("test.txt", "rb");
+//     S s2[3] = {0};
+//     pf = fopen("test.txt", "rb");
 //     if (!pf)
 //         return 0;
-//     //以二进制的形式读文件
-//     fread(&s, sizeof(struct S), 3, pf);
-//
+//     fread(&s2, sizeof(S), 3, pf);
 //     fclose(pf);
 //     pf = NULL;
-//
-//     //调试看结果
+//     // 调试看结果
 //     return 0;
 // }
 
 // 文件的随机读写
 
-// fseek
-//  定位文本指针（不是文件指针）指向特定的文本位置
-//
-//  声明
-//  int fseek( FILE *stream, long offset, int origin );
-//
-//  offset：偏移量，单位是字节
-//  origin：开始偏移的位置，有SEEK_CUR（当前文本指针的位置）, SEEK_END 和 SEEK_SET
-//
+/*
+ * fseek
+ * 定位文本指针的位置（注意不是文件指针）
+ *
+ * 声明
+ * int fseek( FILE *stream, long offset, int origin );
+ * stream：对应的文件指针
+ * offset：偏移量，单位是字节
+ * origin：起始偏移的位置，三种：
+ *         SEEK_CUR，当前文本指针的位置
+ *         SEEK_END，文本末
+ *         SEEK_SET，文本首
+ *
+ * 成功返回 0，否则返回非零。
+ * 对于不能定位的机器，其返回值未定义。
+ */
+
 // int main()
-//{
-//     FILE* pf = fopen("test.txt", "r");
+// {
+//     FILE *pf = fopen("test.txt", "w+");
 //     if (!pf)
 //         return 0;
-//     //1.定位文本指针
-//     fseek(pf, -2, SEEK_END);      //SEEK_END一般是'\0'
 //
-//     //2.读取文件
+//     // 1.定位文本指针
+//     fseek(pf, -2, SEEK_END); // SEEK_END 一般是 '\0'
+//     // 2.读取文件
 //     int ch = fgetc(pf);
 //     printf("%c\n", ch);
 //
