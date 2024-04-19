@@ -6,7 +6,7 @@
 // 文件指针
 // 文件的打开与关闭
 // 顺序读写和随机读写
-// 文件结束的判定
+// 文件读取结束的判定
 
 #include <stdio.h>
 #include <string.h>
@@ -328,6 +328,7 @@
 // }
 
 // 文件的随机读写
+// fseek,ftell,rewind
 
 /*
  * fseek
@@ -344,16 +345,23 @@
  *
  * 成功返回 0，否则返回非零。
  * 对于不能定位的机器，其返回值未定义。
+ *
+ * 为了保持与过去的程序的兼容性，
+ * 以“读写”打开的文件，
+ * 一个输入操作后不能直接跟一个输出操作，
+ * 反之亦然。
+ * 输入和输出操作之间要有`fseek`函数，
+ * `fseek`函数能改变文件的状态。
  */
 
 // int main()
 // {
-//     FILE *pf = fopen("test.txt", "w+");
+//     FILE *pf = fopen("test.txt", "r+");
 //     if (!pf)
 //         return 0;
 //
 //     // 1.定位文本指针
-//     fseek(pf, -2, SEEK_END); // SEEK_END 一般是 '\0'
+//     fseek(pf, -3, SEEK_END); // SEEK_END 指向 EOF
 //     // 2.读取文件
 //     int ch = fgetc(pf);
 //     printf("%c\n", ch);
@@ -363,129 +371,111 @@
 //     return 0;
 // }
 
-// ftell
-//  计算文本指针相对于SEEK_SET的偏移量，单位是字节
-//
-//  声明
-//  long ftell( FILE *stream );
-//
+/*
+ * ftell
+ * 计算文本指针相对于 SEEK_SET 的偏移量，单位是字节
+ *
+ * 声明
+ * long ftell( FILE *stream );
+ */
+
 // int main()
-//{
-//     FILE* pf = fopen("test.txt", "r");
+// {
+//     FILE *pf = fopen("test.txt", "r");
 //     if (!pf)
 //         return 0;
 //
-//     //文本指针在起始位置
+//     // 文本指针在起始位置
 //     long pos = ftell(pf);
-//     printf("%ld\n", pos);
+//     printf("%d\n", pos);
 //
-//     //文本指针在起始位置后3个字节处
+//     // 文本指针在起始位置后 3 个字节处
 //     fseek(pf, 3, SEEK_SET);
 //     pos = ftell(pf);
-//     printf("%ld\n", pos);
+//     printf("%d\n", pos);
 //
 //     fclose(pf);
 //     pf = NULL;
 //     return 0;
 // }
 
-// rewind
-//  让文本指针回到SEEK_SET位置
-//
-//  声明
-//  void rewind( FILE *stream );
-//
+/*
+ * rewind
+ * 让文本指针回到 SEEK_SET 位置
+ * 相当于
+ * fseek(stream, 0, SEEK_SET);
+ *
+ * 声明
+ * void rewind( FILE *stream );
+ */
+
 // int main()
-//{
-//     FILE* pf = fopen("test.txt", "r");
+// {
+//     FILE *pf = fopen("test.txt", "r");
 //     if (!pf)
 //         return 0;
 //
 //     fseek(pf, 3, SEEK_SET);
 //     rewind(pf);
-//
-//     int ch = fgetc(pf);
-//     printf("%c\n", ch);
+//     putchar(fgetc(pf));
 //
 //     fclose(pf);
 //     pf = NULL;
 //     return 0;
 // }
 
-// 文件结束的判定
-//  fgetc，fgets，fread 都有返回值，以下情况说明读取结束 或 发生错误
-//
-//  fgetc    返回EOF（end of file，文件结束标志，值为-1）
-//  fgets    返回NULL，值为0
-//  fread    返回值小于实际要读的个数
+/*
+ * 文件读取结束的判定
+ * 根据 fgetc,fgets,fread 的返回值来判定。
+ *
+ * 以下情况说明读取结束 或 发生错误
+ * fgetc    返回 EOF
+ * fgets    返回 NULL
+ * fread    返回值小于实际要读的个数
+ *
+ * 那么究竟是读取结束还是发生错误？
+ * 用 feof 和 ferror 来判断。
+ *
+ * feof
+ * 判断文件结束的原因：是不是读取结束
+ * ferror
+ * 判断文件结束的原因：是不是发生错误
+ *
+ * 声明
+ * int feof( FILE *stream );
+ * 读取结束返回真，否则返回假
+ *
+ * int ferror( FILE *stream );
+ * 发生错误返回真，否则返回假
+ *
+ * feof 和 ferror 常常一起使用
+ */
 
-// feof
-//  Tests for end-of-file on a stream.
-//  判断文件结束的原因（是不是读取结束）
-//
-//  声明
-//  int feof( FILE *stream );
-//
-//  是读取结束，则返回非零（即返回真）
-//
-
-// ferror
-//  Tests for an error on a stream.
-//  判断文件结束的原因（是不是发生错误）
-//
-//  声明
-//  int ferror( FILE *stream );
-//
-//  是发生错误，则返回非零（即返回真）
-//
-
-// feof 和 ferror 常常一起使用
-
-// 先介绍perror
-//  strerror - 把错误码对应的字符串 的地址返回
-//  perror - 在错误信息前加上自定义说明，直接打印
-//
 // int main()
-//{
-//     FILE* pf = fopen("test2.txt", "r");
+// {
+//     FILE *pf = fopen("test.txt", "r");
 //     if (!pf)
 //     {
-//         //perror("");
-//         perror("abcd");
+//         perror("Fail to open test.txt");
 //         return 0;
 //     }
-//     //...
-//
-//     fclose(pf);
-//     pf = NULL;
-//     return 0;
-// }
-
-// 使用 feof 和 ferror
-// int main()
-//{
-//     //打开test.txt文件
-//     FILE* pf = fopen("test.txt", "r");
-//     if (!pf)
-//     {
-//         perror("fail to open test.txt");
-//         return 0;
-//     }
-//
-//     //循环读取文件
+//     // 循环读取文件
 //     int ch = 0;
 //     while ((ch = fgetc(pf)) != EOF)
 //         putchar(ch);
-//     printf("\n");
+//     putchar('\n');
 //
-//     //判断循环结束的原因
+//     // 判断循环结束的原因
 //     if (ferror(pf))
-//         puts("I/O error when reading");
+//         puts("I/O error when reading test.txt.");
 //     else if (feof(pf))
-//         puts("End of file reached successfully");
+//         puts("End of file reached successfully.");
 //
-//     //关闭文件
+//     // 关闭文件
 //     fclose(pf);
 //     pf = NULL;
 //     return 0;
 // }
+
+// strerror：返回错误码对应的字符串的地址
+// perror：在错误信息前加上自定义说明，直接打印
