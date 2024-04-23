@@ -140,149 +140,149 @@
 //     return 0;
 // }
 
-// 接上题，写一个函数判断两个字符串能不能互相旋转得到
-// 能则返回1，不能则返回0
-//  法一（暴力穷举）
-// int is_left_move(char* s1, char* s2)
-//{
-//	assert(s1);
-//	assert(s2);
-//	int len1 = strlen(s1);
-//	int len2 = strlen(s2);
-//	if (len1 != len2) return 0;	//长度起码要相等
+// 接上题，
+// 函数实现：判断两个字符串能不能互相旋转得到
+// 能则返回 1，不能则返回 0
+// #include <string.h>
+// #include <assert.h>
+// int is_left_move(char *str1, char *str2)
+// {
+//     assert(str1);
+//     assert(str2);
+//     int len1 = strlen(str1);
+//     int len2 = strlen(str2);
+//     if (len1 != len2)
+//         return 0; // 起码长度要相等
 //
-//	int i = 0;
-//	for (i = 0; i < len1; i++)
-//	{
-//		left_move(s1, 1);
-//		if (strcmp(s1, s2) == 0)	//每旋转一次就判断一次
-//			return 1;
-//	}
-//	return 0;
-// }
-// 法二（队列）
-// int is_left_move(const char* s1, const char* s2)
-//{
-//	assert(s1);
-//	assert(s2);
-//	int len1 = strlen(s1);
-//	int len2 = strlen(s2);
-//	if (len1 != len2) return 0;		//起码长度要相等
+//     // 法一：暴力穷举
+//     // 旋转其中一个字符串，
+//     // 每次旋转后判断两个字符串是否相等。
+//     // int i = 0;
+//     // for (i = 0; i < len1; i++)
+//     // {
+//     //     left_move(str1, 1);
+//     //     if (strcmp(str1, str2) == 0)
+//     //         return 1;
+//     // }
+//     // return 0;
 //
-//	// 1.在s1指向的字符串后再加一个该字符串 tmp
-//	char tmp[10000] = "\0";
-//	strcpy(tmp, s1);
-//	char* ptmp = strncat(tmp, tmp, len1);	//tmp后再加tmp。
-//											//自加用strncat，两个字符串相加才用strcat（详见字符函数和字符串函数）
+//     // 法二：队列
+//     // 在 str1 字符串后追加自身，用 tmp 存储。
+//     char tmp[10000];
+//     strcpy(tmp, str1);
+//     strcat(tmp, str1);
 //
-//	// 2.判断s2指向的字符串，是不是tmp的子串
-//	//可以用库函数strstr
-//	//char* p = strstr(tmp, s2);
-//	//if (p)
-//	//	return 1;
-//	//return 0;
-//
-//	//或者手搓strstr原理（不是）
-//	int count = 0;				//计算连续共有的字符有多少个
-//	const char* ps2 = s2;				//可以直接操作s2，但后面还要归正，故再用一个变量
-//	while (*ptmp)
-//	{
-//		if (*ptmp == *ps2)
-//		{   count++; ps2++;   }				//相等则比较s2的下一个字符
-//		else
-//		{   count = 0; ps2 = s2;   }		//不相等则归0归正
-//		ptmp++;								//不管相不相等，ptmp都要向后走
-//
-//		if (count == len2)				//直到连续共有的字符数等于len2，才说明tmp中有s2
-//			return 1;
-//	}
-//	return 0;
+//     // 如果 str1 和 str2 可以互相旋转得到，
+//     // 那么 str2 是 tmp 的子串.
+//     char *p = strstr(tmp, str2);
+//     if (p)
+//         return 1;
+//     return 0;
 // }
 // int main()
-//{
-//	char str1[30] = "abcdef";
-//	char str2[30] = "cdefab";
-//	gets(str1);
-//	gets(str2);
-//
-//	int ret = is_left_move(str1, str2);
-//	if (ret)
-//		printf("YES\n");
-//	else
-//		printf("NO\n");
-//	return 0;
+// {
+//     char str1[10] = "aaa";
+//     char str2[10] = "aaaa";
+//     int ret = is_left_move(str1, str2);
+//     if (ret)
+//         printf("YES\n");
+//     else
+//         printf("NO\n");
+//     return 0;
 // }
 
 // 剑指offer
 // 有一个数字矩阵，矩阵的每行从左到右递增，每列从上到下递增
 // 编写程序查找某个数字是否存在
-// 要求：时间复杂度小于O(N)；
-//
+// 要求：时间复杂度小于 O(N)
+
 // 法一：对每行进行二分查找（略）
 // 法二：发现右上角和左下角的数字有规律
-// int check_arr(int arr[][3], int check, int row, int col)
-//{
-//	int x = 0, y = col - 1;
-//	while (x < row-1 && y > 0)
-//	{
-//		if (arr[x][y] > check)		//右上角的数字比check大，则最右列都比check大，排除
-//			y--;
-//		else if (arr[x][y] < check)	//右上角的数字比check小，则第一行都比check小，排除
-//			x++;
-//		else
-//			return 1;
-//	}
-//	return 0;
+// int check_arr(int arr[][3], int row, int col, int num)
+// {
+//     // 存在返回真，否则返回假
+//     // 取右上角的坐标
+//     int x = 0, y = col - 1;
+//     while (x <= row - 1 && y >= 0)
+//     {
+//         if (arr[x][y] > num)
+//             // 右上角的数字比 num 大，则最右列都比 num 大，排除。
+//             y--;
+//         else if (arr[x][y] < num)
+//             // 右上角的数字比 num 小，则第一行都比 num 小，排除。
+//             x++;
+//         else
+//             return 1;
+//     }
+//     return 0;
 // }
 // int main()
-//{
-//	int arr[3][3] = { {1,2,3}, {2,3,4}, {3,4,5} };
-//	int ret = check_arr(arr, 12, 3, 3);	//存在返回1，否则返回0
-//	if (ret)
-//		printf("找到了\n");
-//	else
-//		printf("不存在\n");
-//
-//	return 0;
+// {
+//     int arr[3][3] = {
+//         {1, 2, 3},
+//         {4, 5, 6},
+//         {7, 8, 9},
+//     };
+//     int ret = check_arr(arr, 3, 3, 7);
+//     if (ret)
+//         printf("find.\n");
+//     else
+//         printf("not exist.\n");
+//     return 0;
 // }
-// 思考：如果改成要求得到check的坐标？
-// 1.如果check只存在一个，如何从函数内部带出两个数？
-// 2.如果check存在多个，如何从函数内部带出多个数？
+
+// 思考：如果要求得到 num 的坐标？
+// 如果 num 存在，如何从函数内部带出两个数？
+// 如果 num 不止一个呢？
 // 解决方案：地址传参
-//
-// void check_arr(int arr[][3], int check, int row, int col, int index[][2])
-//{
-//	int x = 0, y = col - 1;
-//	int count = 0;					//计算check在arr内有多少个
-//	while (x <= row - 1 && y >= 0)
-//	{
-//		if (arr[x][y] > check)		//右上角的数字比check大，则最右列都比check大，排除
-//			y--;
-//		else if (arr[x][y] < check)	//右上角的数字比check小，则第一行都比check小，排除
-//			x++;
-//		else
-//		{
-//			index[count][0] = x--;	//别忘了修改x和y！卡了我一个小时，c
-//			index[count][1] = y--;
-//			count++;
-//		}
-//	}
-//	int i = 0;
-//	for (i = count; i < row * col; i++)	//多出的index部分全改成-1
-//		index[i][0] = index[i][1] = -1;
+
+// void check_arr(
+//     int arr[][3],
+//     int row,
+//     int col,
+//     int num,
+//     int index[][2])
+// {
+//     int x = 0;
+//     int y = col - 1;
+//     int count = 0; // 存储 num 在 arr 内的个数
+//     while (x <= row - 1 && y >= 0)
+//     {
+//         if (arr[x][y] > num)
+//             y--;
+//         else if (arr[x][y] < num)
+//             x++;
+//         else
+//         {
+//             index[count][0] = x--;
+//             index[count][1] = y--;
+//             count++;
+//         }
+//     }
+//     // index 多出的部分全改成 -1
+//     int i = 0;
+//     for (i = count; i < row * col; i++)
+//         index[i][0] = index[i][1] = -1;
 // }
 // int main()
-//{
-//	int arr[3][3] = { {1,2,3}, {2,3,4}, {3,4,5} };
-//	int k = 3;
-//	int index[9][2] = { 0 };	//假设每个数字都是要找的数，则共有3*3 == 9个坐标组
+// {
+//     int arr[3][3] = {
+//         {1, 2, 3},
+//         {2, 3, 4},
+//         {3, 4, 5},
+//     };
+//     int k = 1;
+//     int index[3][2] = {0};
+//     // index 存 num 的坐标。
+//     // 理论上 num 在矩阵内可能的个数
+//     // 不多于长和宽的较小值
 //
-//	//返回型参数
-//	check_arr(arr, k, 3, 3, index);
+//     // 返回型参数
+//     check_arr(arr, 3, 3, k, index);
 //
-//	int i = 0;
-//	for (i = 0; i < 9; i++)
-//		printf("(%d,%d)\n", index[i][0], index[i][1]);
-//
-//	return 0;
+//     // 打印 num 在矩阵中的坐标
+//     int i = 0;
+//     for (i = 0; i < 3; i++)
+//         printf("(%d,%d)\n", index[i][0], index[i][1]);
+//     return 0;
 // }
