@@ -6,7 +6,7 @@
 #include <string.h>
 
 #define MAX_NAME 15
-#define MAX_SEX 6
+#define MAX_SEX 7
 #define MAX_AGE 4
 #define MAX_TELEPHONE 15
 #define MAX_ADDRESS 20

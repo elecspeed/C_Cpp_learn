@@ -28,13 +28,13 @@ void test1()
             AddContact(&cont);
             break;
         case ERASE:
-            // EraseContact(&cont);
+            EraseContact(&cont);
             break;
         case SEARCH:
             SearchContact(&cont);
             break;
         case MODIFY:
-            // ModifyContact(&cont);
+            ModifyContact(&cont);
             break;
         case SAVE:
             SaveContact(&cont);

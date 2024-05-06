@@ -156,6 +156,45 @@ static int *FilterContact(contact *cont,
         *nums = count1;
     return index_arr;
 }
+static int Yes_or_no(const char *str)
+{
+    // Yes 返回 1
+    // No 返回 0
+    int ch;
+    do
+    {
+        printf(str);
+        getchar();
+        ch = getchar();
+        switch (ch)
+        {
+        case 'Y':
+        case 'y':
+            return 1;
+            break;
+        case 'N':
+        case 'n':
+            return 0;
+            break;
+        default:
+            printf("Illegal input.");
+            break;
+        }
+    } while (ch != 'Y' && ch != 'y' &&
+             ch != 'N' && ch != 'n');
+}
+static int SearchContact_byName(contact *cont)
+{
+    // 以名字查找
+    // 找到返回下标，找不到返回 -1
+    char name[MAX_NAME];
+    printf("name: ");
+    scanf("%s", name);
+    for (int i = 0; i < cont->_size; ++i)
+        if (!strcmp(name, cont->_data[i]._name))
+            return i;
+    return -1;
+}
 void InitContact(contact *cont)
 {
     // 初始化通讯录
@@ -163,15 +202,9 @@ void InitContact(contact *cont)
     if (!pf)
     {
         // 没找到文件，可能丢了或本来就没有
-        cont->_capacity = 4;
-        cont->_size = 0;
-        cont->_data = (person *)
-            malloc(SIZE_PERSON * cont->_capacity);
-        if (!cont->_data)
-        {
-            perror("InitContact::Malloc failure");
-            exit(-1);
-        }
+        cont->_capacity = cont->_size = 0;
+        cont->_data = NULL;
+        ExtendContact(cont);
         return;
     }
     // 找到文件，读取文件
@@ -186,7 +219,7 @@ void InitContact(contact *cont)
         exit(-1);
     }
     else if (tmp == cont->_size || feof(pf))
-        printf("Read file successfully.\n");
+        printf("Read file successfully.\n\n");
     fclose(pf);
     pf = NULL;
 }
@@ -194,18 +227,18 @@ void DisplayContact(contact *cont)
 {
     // 展示通讯录
     if (cont->_size == 0)
-    {
         printf("There is nobody.\n");
-        return;
+    else
+    {
+        printf("Name            Sex    Age Telephone       Address\n");
+        for (int i = 0; i < cont->_size; ++i)
+            printf("%-15s%-7s%-4s%-15s%s\n",
+                   cont->_data[i]._name,
+                   cont->_data[i]._sex,
+                   cont->_data[i]._age,
+                   cont->_data[i]._telephone,
+                   cont->_data[i]._address);
     }
-    printf("Name            Sex    Age Telephone       Address\n");
-    for (int i = 0; i < cont->_size; ++i)
-        printf("%-16s%-7s%-4s%-16s%s\n",
-               cont->_data[i]._name,
-               cont->_data[i]._sex,
-               cont->_data[i]._age,
-               cont->_data[i]._telephone,
-               cont->_data[i]._address);
     putchar('\n');
 }
 void AddContact(contact *cont)
@@ -222,25 +255,29 @@ void EraseContact(contact *cont)
 {
     // 删除联系人
     // 先找到该联系人
-    if (once)
-    {
-        Instruction();
-        --once;
-    }
-    printf("Enter the key informations.\n");
-    person keyInformation; // 存储关键信息
-    EnterInformation(&keyInformation);
-
-    int nums = 0;
-    int *list = FilterContact(cont, &keyInformation, &nums);
-    if (!list)
-    {
+    int index = SearchContact_byName(cont);
+    if (index < 0)
+        // 没找到
         printf("No find.\n");
-        return;
-    }
-    if (nums == 1)
+    else
     {
+        // 找到了
+        printf("Name            Sex    Age Telephone       Address\n");
+        printf("%-15s%-7s%-4s%-15s%s\n",
+               cont->_data[index]._name,
+               cont->_data[index]._sex,
+               cont->_data[index]._age,
+               cont->_data[index]._telephone,
+               cont->_data[index]._address);
+        // 然后确认是否删除
+        int ret = Yes_or_no("Are you sure?(Y/N): ");
+        if (ret == 1)
+        {
+            cont->_data[index] = cont->_data[--cont->_size];
+            printf("Erase success!\n");
+        }
     }
+    putchar('\n');
 }
 void SearchContact(contact *cont)
 {
@@ -261,17 +298,18 @@ void SearchContact(contact *cont)
     {
         if (nums == 0)
             // 没有符合的联系人
-            printf("No find.\n");
+            printf("No find.\n\n");
         if (nums == -1)
             // 输入全为 '.'
-            printf("Sorry, unable to Search.\n");
+            printf("Sorry, unable to Search.\n\n");
+        return;
     }
     else
     {
         // 最后把符合关键信息的联系人展示出来
         printf("Name            Sex    Age Telephone       Address\n");
         for (int i = 0; i < nums; ++i)
-            printf("%-16s%-7s%-4s%-16s%s\n",
+            printf("%-15s%-7s%-4s%-15s%s\n",
                    cont->_data[list[i]]._name,
                    cont->_data[list[i]]._sex,
                    cont->_data[list[i]]._age,
@@ -281,9 +319,37 @@ void SearchContact(contact *cont)
     putchar('\n');
     free(list);
 }
-void ModifyContact(contact *cont) {}
+void ModifyContact(contact *cont)
+{
+    // 修改联系人信息
+    // 先找到该联系人
+    int index = SearchContact_byName(cont);
+    if (index < 0)
+        // 没找到
+        printf("No find.\n");
+    else
+    {
+        // 找到了
+        printf("Name            Sex    Age Telephone       Address\n");
+        printf("%-15s%-7s%-4s%-15s%s\n",
+               cont->_data[index]._name,
+               cont->_data[index]._sex,
+               cont->_data[index]._age,
+               cont->_data[index]._telephone,
+               cont->_data[index]._address);
+        // 然后确认是否修改
+        int ret = Yes_or_no("Are you sure?(Y/N): ");
+        if (ret == 1)
+        {
+            EnterInformation(&cont->_data[index]);
+            printf("Modify success!\n");
+        }
+    }
+    putchar('\n');
+}
 void SaveContact(contact *cont)
 {
+    // 存档
     FILE *pf = fopen("contact.cat", "w");
     if (!pf)
     {
@@ -297,6 +363,7 @@ void SaveContact(contact *cont)
 }
 void DestroyContact(contact *cont)
 {
+    // 销毁数据
     cont->_capacity = cont->_size = 0;
     free(cont->_data);
     cont->_data = NULL;
