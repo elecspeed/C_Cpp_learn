@@ -376,7 +376,8 @@ using namespace std;
 /*
  * 类型成员
  * 必须先定义才能使用，
- * 通常放在类定义的开头。
+ * 通常放在类定义的开头，
+ * 确保所有成员都在类型成员的定义之后。
  *
  * 可变数据成员
  * 关键字 mutable
@@ -401,8 +402,68 @@ using namespace std;
 
 /*
  * 类的作用域
+ * 一个类就是一个作用域。
+ *
+ * 在类外部的成员定义，类名:: 之后都在类的作用域内。
+ * 比如
+ * 定义在类外部的成员函数，
+ * 类名:: 之后的参数列表和函数体，
+ * 在该类的作用域内。
+ * 但注意，返回类型不在。
+ *
+ * 名字查找
+ * 编译器先处理类内的所有声明，
+ * 然后才处理成员函数的定义。
+ *
+ * 所以除了类型成员，其他成员对声明没有顺序要求。
+ *
+ * 建议：数据成员的名字都以下划线开头，防止命名冲突。
  */
 
 /*
  * 静态成员
+ * 关键字 static
+ *
+ * 静态数据成员存在于静态区，
+ * 对象中不包含任何静态数据成员。
+ * 类似的，
+ * 静态成员函数也不与任何对象绑定，
+ * 没有 this 指针。
  */
+
+// #include <vector>
+// class classroom
+// {
+// private:
+//     double _area;
+//     vector<string> _equipment;
+//     static string _teachingBuilding;
+// public:
+//     classroom() = default;
+//     classroom(double, vector<string> = {"desk", "podium"});
+//     void Display();
+//     static void SetBuilding(const string &);
+// };
+// classroom::classroom(double area, vector<string> equipment)
+//     : _area(area), _equipment(equipment) {}
+// inline void classroom::Display()
+// {
+//     cout << "area: " << _area << "\n"
+//          << "equipment: ";
+//     for (int i = 0; i < _equipment.size(); ++i)
+//         cout << _equipment[i] << ", ";
+//     cout << "\n"
+//          << "building: " << _teachingBuilding
+//          << endl;
+// }
+// string classroom::_teachingBuilding = "TeachOne";
+// inline void classroom::SetBuilding(const string &building)
+// {
+//     _teachingBuilding = building;
+// }
+// int main()
+// {
+//     classroom c(134);
+//     c.Display();
+//     return 0;
+// }
