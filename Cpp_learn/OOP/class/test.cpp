@@ -425,10 +425,31 @@ using namespace std;
  * 关键字 static
  *
  * 静态数据成员存在于静态区，
- * 对象中不包含任何静态数据成员。
+ * 对象中不包含任何静态数据成员（不为其分配内存）。
  * 类似的，
  * 静态成员函数也不与任何对象绑定，
  * 没有 this 指针。
+ *
+ * 类内声明。
+ *
+ * 静态数据成员类外定义，静态成员函数类内外皆可，
+ * 其中，类外定义不能重复 static 关键字。
+ *
+ * 静态数据成员不是由构造函数初始化的，
+ * 必须在类外初始化。
+ * 除非
+ * static constexpr 类型 a = 常量表达式;
+ * （有些编译器不支持类内初始值）
+ *
+ * 建议：
+ * 1.把 静态数据成员的定义 和 成员函数的类外定义
+ *   放在一起。
+ * 2.即使静态数据成员在类内初始化，
+ *   也要在类外定义一下。
+ *
+ * 与普通成员的不同
+ * 静态数据成员的类型可以是所属类的类型，
+ * 静态成员可以用于成员函数的默认实参。
  */
 
 // #include <vector>
@@ -438,6 +459,7 @@ using namespace std;
 //     double _area;
 //     vector<string> _equipment;
 //     static string _teachingBuilding;
+//     static classroom _member;
 // public:
 //     classroom() = default;
 //     classroom(double, vector<string> = {"desk", "podium"});
