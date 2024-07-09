@@ -58,20 +58,20 @@ using namespace std;
 // 只有定义了对象，系统才会给对象分配内存空间
 
 /*
- * 关键字 struct 和 class 的区别
- * 只有一个：
+ * 关键字 struct & class
+ * 只有一个区别：
  * struct 的默认访问权限为 public，
  * class 的默认访问权限为 private。
  */
 
 /*
- * 成员函数有权访问所有内部成员。
+ * 成员函数有权访问所有内部成员。（静态成员函数除外）
  *
  * 成员函数的实现代码可以放在类的内部，也可以放在外部。
  * 放在内部，被自动视为内联函数。
  * 放在外部，定义必须与声明匹配。
  *
- * 递归函数和返回地址的函数不能设为 inline。
+ * 递归函数不能设为 inline。
  */
 
 /*
@@ -108,8 +108,7 @@ using namespace std;
  * 在哪里将 this 声明为指向常量的指针？
  *
  * C++ 的做法是把 const 放在成员函数的参数列表后。
- * 这时，
- * 使用 const 的成员函数就被称为常量成员函数。
+ * 此时的成员函数就被称为常量成员函数。
  *
  * 这里的 const 的作用是修改 this 指针的类型。
  */
@@ -143,10 +142,23 @@ using namespace std;
 // }
 
 // tip:
-// 不改变对象、不返回本类引用的成员函数，都设为 const；
-// 改变对象、返回本类引用的成员函数，设置两份。
-// 一份为普通成员函数，
-// 一份为常量成员函数。
+// 不返回 *this 引用的成员函数，都设为 const；
+// 返回 *this 引用的成员函数，设置两份：
+// 普通成员函数 和 常量成员函数。
+// 例：
+// class Book
+// {
+// private:
+//     void do_display() const {}
+//     // ...
+// public:
+//     Book &display()
+//                 {  do_display();  return *this;  }
+//     const Book &display() const
+//                 {  do_display();  return *this;  }
+//     // ...
+// };
+// 在成员函数内改变了 mutable
 
 /*
  * 建议：将类内公共代码设为 private 内联函数
