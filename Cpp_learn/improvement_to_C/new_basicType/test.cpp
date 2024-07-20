@@ -1,4 +1,5 @@
 #include <iostream>
+#include <string>
 using namespace std;
 
 /*
@@ -97,6 +98,39 @@ int main()
 
     /**
      * decltype（C++11）
+     * 1.一个函数
+     * 2.一个变量
+     * 3.既不是一个函数，也不是一个变量
      */
+    // 1.
+    // 如果 decltype 使用的表达式是一个函数，
+    // 则返回该函数的返回类型。
+    // 编译器并不调用该函数。
+    string s;
+    decltype(s.size()) count = 0; // std::size_t
+
+    // 2.
+    // 如果 decltype 使用的表达式是一个变量，
+    // 则返回该变量的类型（包括顶层 const 和引用）
+    const long cl = 0L,
+               &rcl = cl,
+               *pcl = &cl,
+               *const cpcl = &cl;
+    decltype(cl) h = 0;    // h 是 const long，必须初始化
+    decltype(rcl) j = h;   // j 是 const long&，必须初始化
+    decltype(pcl) k;       // k 是 const long*
+    decltype(cpcl) l = &h; // l 是 const long *const，必须初始化
+
+    // 3.
+    // 如果 decltype 使用的表达式不是情况 1,2，
+    // 再分情况：
+    // a.表达式的结果只能作右值，
+    //   则返回该结果的类型
+    // b.能作左值，
+    //   则返回该结果类型的引用类型
+    int jj = 0, *p = &jj, &r = jj;
+    decltype(r + 0) o;  // o 是 int
+    decltype(*p) q = o; // q 是 int&
+
     return 0;
 }
