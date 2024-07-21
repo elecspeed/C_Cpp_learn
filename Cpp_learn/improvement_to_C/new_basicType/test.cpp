@@ -132,5 +132,56 @@ int main()
     decltype(r + 0) o;  // o 是 int
     decltype(*p) q = o; // q 是 int&
 
+    // 注意：
+    // 给变量加上一层或多层括号，
+    // 编译器就会把它当成是表达式，即情况 3。
+    // decltype((variable)) 的结果永远是引用。
+    char ch;
+    decltype(ch) ch2;        // char
+    decltype((ch)) rch = ch; // char&
     return 0;
 }
+
+/*
+ * 自定义数据结构
+ * C++ 允许用户以类的形式自定义数据类型
+ *
+ * 在学习关键字 class 之前，
+ * 建议先使用 struct 定义类。
+ *
+ * 使用 struct 定义的类，不同于 C 的结构体。
+ * 类是类，结构体是结构体。
+ * 但是 C++ 继承自 C，
+ * 类的有些方面和结构体类似。
+ */
+struct Test
+{
+    // 数据成员
+    // 可以为类的数据成员提供类内初始值（C++11）
+    // 没有初始值的成员将被默认初始化。
+    // 初始值放在 {}里 或 =右边，不能用()
+    string s;
+    int i = 0;
+    double pi = {3.1415};
+    // 成员函数
+    constexpr int nums_DataNumber() const { return 3; }
+};
+/*
+ * 编写头文件
+ * 类通常被定义在头文件中，
+ * 而且头文件的名字应该与类的名字一致。
+ * 例如
+ * 库类型 string 所在头文件名为 string，
+ * 上面的 Test 定义应该放在 Test.h 头文件中。
+ *
+ * 头文件通常包含那些只能被定义一次的实体，
+ * 如 类、const变量 和 constexpr变量等。
+ *
+ * 注：
+ * 头文件一旦改变，
+ * 相关的源文件必须重新编译以获取更新过的声明。
+ */
+/*
+ * Test.h 头文件有 Test 的另一份定义，
+ * 详见同目录的 Test.h 文件。
+ */
