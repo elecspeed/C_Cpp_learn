@@ -1,79 +1,82 @@
 #include <iostream>
+#include <string>
+#include <cctype>
 using namespace std;
 
 /*
- * 新增类型 string 类的定义、使用
+ * 标准库类型 string
  */
-
-#include <string> // 使用 string 要包含 <string> 头文件
 int main()
 {
-    // 定义
-    string s1;                  // 定义空串 s1
-    string s2 = "hello,world!"; // s2 初值为 hello,world!
-    string s3 = s2;             // s3 初值为串 s2 的值
-    string s4(8, 'A');          // s4 初值为 8 个 A，即 AAAAAAAA
+    /**
+     * 定义和初始化
+     * 有多种初始化的方式
+     */
+    // string s1;           // 默认初始化，s1 是空字符串
+    // string s2 = s1;      // 拷贝初始化，s2 也是空字符串
+    // string s3 = "hello"; // 拷贝初始化，s3 不包含 '\0'
+    // string s4(5, '*');   // 直接初始化
+    // 注意：
+    // 用字符串字面值作初始值时，
+    // 新创建的 string 对象不包含 '\0'
 
-    // 读入
-    cin >> s1;
-    cout << s1 << endl;
-    // 遇到 blank space 结束，blank space 留在缓冲区
-    // 同 scanf("%s")
+    /**
+     * 操作 string 对象
+     * IO
+     *   os << s        将 s 写到输出流 os 中
+     *   is >> s        从 is 中读取字符串赋给 s
+     *   getline(is, s) 从 is 中读取一行赋给 s，返回 is
+     * 比较
+     *   s1 == s2
+     *   s1 != s2
+     *   <, <=, >, >=
+     * 其他操作
+     *   s1 + s2   返回 s1 和 s2 拼接后的结果
+     *   s1 = s2   赋值
+     *   s[n]      下标访问 s 中的字符
+     * 常用方法
+     *   empty, size, length
+     *   （size 返回字符的个数，length 返回 string 的长度）
+     *   push_back, append
+     *   （push_back 追加字符，append 追加字符串）
+     *
+     *   insert   插入
+     *   replace  修改
+     *   substr   取子串
+     *   find     找子串
+     *   erase    删除
+     *   c_str    返回 C 风格字符串，即返回 const char*
+     */
+    // 逐行读取，直到文件结束
+    // string line;
+    // while (getline(cin, line))
+    //     if (!line.empty())
+    //         // 跳过空行
+    //         cout << line << endl;
 
-    getline(cin, s1);
-    cout << s1 << endl;
-    // 读入一行，遇到换行符结束，换行符被读入
-    // 同 gets()
+    // size() 的返回类型 string::size_type
+    // size_t，即 unsigned long long
+    // 注意无符号数和带符号数的混用
 
-    // 赋值
-    s1 = s4;
-    s1 = '1';
-    s1 = {'a', 'b', 'c'};
-    cout << "s1=" << s1 << endl;
-    // 右边可以是一个 string 串、C 风格的串或一个 char 字符
+    // 标准库允许把字符（串）字面值隐式转换成 string，
+    // 所以，
+    // 在需要 string 的地方可以用字符（串）字面值代替。
+    string s1 = "hello";
+    string s2 = "world";
+    string s3 = s1 + ", " + "world";
+    // string s4 = "hello" + ", " + s2;
+    // 等价于 string s4 = ("hello" + ", ") + s2;
+    // 错误：不能把字符串字面值直接相加
 
-    // 字符串连结、比较
-    s2 = s3 + ' ' + s4;
-    cout << s2 << endl;
-    bool tmp = s2 > s4;
-    cout << boolalpha << tmp << endl;
-    // + 运算符实现串连结，> 运算符比较串长度。
-    // 运算符重载，+ 和 > 运算符的内涵发生了改变
-
-    // 方法：
-    // length, append, insert, replace
-    // substr, find, erase, c_str
-
-    // 求串长
-    s1 = "abc";
-    cout << s1.length() << endl;
-
-    // 尾插
-    s1.append(s2);
-    cout << s1 << endl;
-
-    // 在 s1 下标为 3 的位置前面插入 s4
-    s1.insert(3, s4);
-    cout << s1 << endl;
-
-    // 下标 [0,3) 范围内的子串替换成"111"
-    s1.replace(0, 3, "111");
-    cout << s1 << endl;
-
-    // s2 下标 [0,5) 范围内的子串赋给 s1
-    s1 = s2.substr(0, 5);
-    cout << s1 << endl;
-
-    // 从 s1 中找 "ll"，
-    // 找到返回第一个匹配字符的下标；否则返回 -1
-    int pos = s1.find("ll");
-    cout << pos << endl;
-
-    // 删除 s1 下标 [0,3) 范围内的子串
-    s1.erase(0, 3);
-    cout << s1 << endl;
-
-    // 某些情况下需要转成 C 风格的字符串，用方法 c_str
-
+    /**
+     * 操作 string 中的字符
+     */
+    // 处理每个字符：使用范围 for
+    string str("some string");
+    for (auto ch : str) // 不改变元素
+        cout << ch << endl;
+    for (auto &ch : str) // 改变元素
+        ch = toupper(ch);
+    cout << str << endl;
     return 0;
 }
