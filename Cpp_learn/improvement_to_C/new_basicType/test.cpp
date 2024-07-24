@@ -77,41 +77,38 @@ int main()
      */
     // auto 定义的变量必须初始化
     // auto a = 0, b;
-    auto a = 0, &ra = a, *pa = &a;
+    auto a = 0, &ra = a, *pa = &a; // int
 
     // 初始值是引用，
     // 则真正参与初始化的是引用的对象。
     // 要想设置 auto 引用，
     // 需要明确指出
     int i = 0, &ri = i;
-    auto b = ri;
-    auto &c = ri;
+    auto b = ri;  // int
+    auto &c = ri; // int&
 
     // 忽略顶层 const，保留底层 const。
     // 如果希望推出的 auto 是顶层 const，
     // 需要明确指出
     const int ci = i, &rci = ci;
-    auto d = ci;
-    auto e = &ci;
-    const auto f = &ci;
-    auto &g = ci; // 转化成底层 const
+    auto d = ci;        // int
+    auto e = &ci;       // const int*
+    const auto f = &ci; // const int *const
+    auto &g = ci;       // const int&
 
     /**
      * decltype（C++11）
-     * 1.一个函数
-     * 2.一个变量
-     * 3.既不是一个函数，也不是一个变量
      */
     // 1.
     // 如果 decltype 使用的表达式是一个函数，
     // 则返回该函数的返回类型。
     // 编译器并不调用该函数。
     string s;
-    decltype(s.size()) count = 0; // std::size_t
+    decltype(s.size()) count = 0; // count 是 std::size_t
 
     // 2.
     // 如果 decltype 使用的表达式是一个变量，
-    // 则返回该变量的类型（包括顶层 const 和引用）
+    // 则返回该变量的类型（包括 const 和引用）
     const long cl = 0L,
                &rcl = cl,
                *pcl = &cl,
@@ -175,7 +172,7 @@ struct Test
  * 上面的 Test 定义应该放在 Test.h 头文件中。
  *
  * 头文件通常包含那些只能被定义一次的实体，
- * 如 类、const变量 和 constexpr变量等。
+ * 如 类、const变量 和 constexpr变量 等。
  *
  * 注：
  * 头文件一旦改变，
