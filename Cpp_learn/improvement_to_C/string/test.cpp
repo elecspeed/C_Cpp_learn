@@ -74,9 +74,24 @@ int main()
     // 处理每个字符：使用范围 for
     string str("some string");
     for (auto ch : str) // 不改变元素
-        cout << ch << endl;
+        cout << ch << " ";
     for (auto &ch : str) // 改变元素
         ch = toupper(ch);
     cout << str << endl;
+
+    // 只处理一部分字符：1.下标访问；2.使用迭代器
+    // 这里只讲下标访问。
+    // 带符号类型的索引将自动转换成无符号类型，
+    // 即 string::size_type
+    string str2("hello, world");
+    if (!str2.empty())
+        cout << str2[0] << endl; // 输出 str2 第一个字符
+
+    // 编写程序把 0~15 的十进制数转换成十六进制数
+    const string hexDigits = "0123456789ABCDEF";
+    decltype(hexDigits.size()) n; // 存储十进制数
+    while (cin >> n)
+        if (n < hexDigits.size())
+            cout << hexDigits[n] << " ";
     return 0;
 }
