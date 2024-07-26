@@ -35,8 +35,8 @@ int main()
      *   s1 = s2   赋值
      *   s[n]      下标访问 s 中的字符
      * 常用方法
-     *   empty, size, length
-     *   （size 返回字符的个数，length 返回 string 的长度）
+     *   empty, size, length, capacity
+     *   （size,length 返回字符个数，capacity 返回 string 长度）
      *   push_back, append
      *   （push_back 追加字符，append 追加字符串）
      *
